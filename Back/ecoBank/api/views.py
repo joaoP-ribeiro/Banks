@@ -33,7 +33,7 @@ class LegalPersonView(viewsets.ModelViewSet):
     serializer_class = LegalPersonSerializer
     queryset = LegalPerson.objects.all()
 
-class ClientView(viewsets.ModelViewSet):
+class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
     permission_classes = [IsAuthenticated]
 
@@ -48,4 +48,4 @@ class ClientView(viewsets.ModelViewSet):
 
         #     return clients
         # else:
-        return CustomUsuario.objects.all()
+        return CustomUsuario.objects.filter(user=self.request.user)
