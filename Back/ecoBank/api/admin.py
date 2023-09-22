@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUsuarioChangeForm, CustomUsuarioCreateForm
-from .models import Anddress, Phone, Email, NaturalPerson, LegalPerson, CustomUsuario
+from .models import Address, Phone, Email, NaturalPerson, LegalPerson, CustomUsuario
 
-class AnddressInline(admin.StackedInline):
-    model = Anddress
+class AddressInline(admin.StackedInline):
+    model = Address
     extra = 0
 
 class EmailInline(admin.TabularInline):
@@ -52,10 +52,10 @@ class CustomUsuarioAdmin(UserAdmin):
         ],
     ]
 
-    inlines = [AnddressInline, EmailInline, PhoneInline, NaturalPersonInline, LegalPersonInline]
+    inlines = [AddressInline, EmailInline, PhoneInline, NaturalPersonInline, LegalPersonInline]
 
-@admin.register(Anddress)
-class AnddressAdmin(admin.ModelAdmin):
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
     list_display = ['client', 'cep', 'city', 'street', 'neighborhood', 'uf']
 
 @admin.register(Email)

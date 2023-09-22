@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import CustomUsuario, NaturalPerson, LegalPerson, Email, Phone, Anddress
+from .models import CustomUsuario, NaturalPerson, LegalPerson, Email, Phone, Address
 
 
-class AnddressSerializer(serializers.ModelSerializer):
+class AddressSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Anddress
+        model = Address
         fields = '__all__'
 
 class PhoneSerializer(serializers.ModelSerializer):
@@ -28,17 +28,20 @@ class NaturalPersonSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ClientSerializer(serializers.ModelSerializer):
-    # phone = PhoneSerializer(many=True)
-    # anddress = AnddressSerializer(many=True)
-    email = EmailSerializer(many=True)
-    # legal_person = LegalPersonSerializer(many=True)
-    # natural_person = NaturalPersonSerializer(many=True)
+    natural_person = NaturalPersonSerializer(source='client_naturalPerson', read_only=True)
+    legal_person = LegalPersonSerializer(source='client_legalPerson', read_only=True)
+    emails = EmailSerializer(source='client_emails', many=True, read_only=True)
+    phones = PhoneSerializer(source='client_phones', many=True, read_only=True)
+    addresses = AddressSerializer(source='client_addresses', many=True, read_only=True)
 
     class Meta:
         model = CustomUsuario
         fields = [
             'identification_number',
             'photograph',
-            'email'
-            
+            'natural_person',
+            'legal_person',
+            'emails',
+            'phones',
+            'addresses',
         ]
