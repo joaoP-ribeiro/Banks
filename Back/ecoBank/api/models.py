@@ -6,6 +6,7 @@ from django.dispatch import receiver
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
+import random
 
 
 class UsuarioManager(BaseUserManager):
@@ -126,9 +127,38 @@ class Phone(models.Model):
 
     def __str__(self):
         return self.phone
+    
+class Account(models.Model):
+    client = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='client_phones')
+    agency = models.CharField('Agency', max_length=4)
+    number = models.CharField('Number', max_length=7, unique=True)
+    typee = models.CharField('Type', max_length=10)
+    credit_limit = models.DecimalField("CreditLimit", max_digits=15, decimal_places=2)
+    saldo = models.DecimalField("Saldo", max_digits=15, decimal_places=2)
+    status = models.CharField('Status', max_length=10)
 
+    def save(self, *args, **kwargs):
+        for i in range(0, 7):
+            if i == 5:
+                numeros = "-"
+            numeros =  random.randint(0, 9)
+            resultado += str(numeros)
+        self.number = resultado 
+        super(Account, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return f'{self.number}'
 
+class Caard(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_card')
+    number = models.CharField('Number', max_length=8)
+    expiration_date = models.DateField()
+    verification_number = models.CharField('Verification Number', max_length=3)
+    status = models.CharField('Status', max_length=10)
+
+    
+    def __str__(self):
+        return f'{self.number}'
 
 @receiver(post_save, sender=CustomUsuario)
 def create_token_for_user(sender, instance, created, **kwargs):
