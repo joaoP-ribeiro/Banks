@@ -55,12 +55,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'ecoBank.urls'
 
+#CORS_ALLOW_ALL_ORIGINS = True
+
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:19006",
+    'http://localhost:19006',
+    'http://localhost:8081',
+    'http://localhost:8082'
 
 ]
 
@@ -81,6 +86,11 @@ TEMPLATES = [
         },
     },
 ]
+
+
+DJOSER = {
+    'LOGIN_FIELD': 'identification_number'
+}
 
 WSGI_APPLICATION = 'ecoBank.wsgi.application'
 

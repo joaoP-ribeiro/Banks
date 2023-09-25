@@ -10,19 +10,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 
-    navButtons:{
-        padding: 15,
-        width: '100%',
-        flexDirection: "row",
-        
-    },
-
-    navB:{
-        width: '50%',
-        justifyContent: 'center',
-        alignItems: 'center'
-
-    },
 
     login:{
         height: '83%',

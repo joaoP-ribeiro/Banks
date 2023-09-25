@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
 
     content: {
         flex: 1,
-      },
+    },
+
 
     login:{
         height: '83%',
@@ -16,20 +17,6 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 60,
         borderTopLeftRadius: 60,
         
-    },
-
-    navButtons:{
-        padding: 15,
-        width: '100%',
-        flexDirection: "row",
-        
-    },
-
-    navB:{
-        width: '50%',
-        justifyContent: 'center',
-        alignItems: 'center'
-
     },
 
     pdButtom:{
@@ -40,6 +27,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: 30
     },
 
     bt:{

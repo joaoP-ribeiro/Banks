@@ -41,7 +41,7 @@ class UsuarioManager(BaseUserManager):
 
 class CustomUsuario(AbstractUser):
     identification_number = models.CharField('Identification Number', max_length=14, unique=True)
-    photograph = models.CharField('Photograph', max_length=400)
+    photograph = models.CharField('Photograph', max_length=400, blank=True)
     is_staff = models.BooleanField('Membro', default=True)
     token = models.CharField('Token', max_length=255, blank=True, null=True)
 
@@ -76,6 +76,8 @@ class NaturalPerson(models.Model):
 
     def save(self, *args, **kwargs):
         self.cpf = self.client.identification_number
+        self.client.photograph = self.name[0]
+        self.client.save()
         super(NaturalPerson, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -93,6 +95,8 @@ class LegalPerson(models.Model):
 
     def save(self, *args, **kwargs):
         self.cnpj = self.client.identification_number
+        self.client.photograph = self.fantasy_name[0]
+        self.client.save()
         super(LegalPerson, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -129,7 +133,7 @@ class Phone(models.Model):
         return self.phone
     
 class Account(models.Model):
-    client = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='client_phones')
+    client = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='client_account')
     agency = models.CharField('Agency', max_length=4)
     number = models.CharField('Number', max_length=7, unique=True)
     typee = models.CharField('Type', max_length=10)
@@ -137,10 +141,11 @@ class Account(models.Model):
     saldo = models.DecimalField("Saldo", max_digits=15, decimal_places=2)
     status = models.CharField('Status', max_length=10)
 
-    def save(self, *args, **kwargs):
+    def save(self, resultado=None, *args, **kwargs):
         for i in range(0, 7):
             if i == 5:
                 numeros = "-"
+                resultado += str(numeros)
             numeros =  random.randint(0, 9)
             resultado += str(numeros)
         self.number = resultado 
@@ -149,7 +154,7 @@ class Account(models.Model):
     def __str__(self):
         return f'{self.number}'
 
-class Caard(models.Model):
+class Card(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_card')
     number = models.CharField('Number', max_length=8)
     expiration_date = models.DateField()

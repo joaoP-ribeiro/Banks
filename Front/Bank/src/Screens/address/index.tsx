@@ -7,7 +7,7 @@ import Title from "../../Components/Title";
 import Input from "../../Components/Input";
 
 
-export default function Anddress(){
+export default function Address(){
     const [value, setValue] = useState("")
     const navigation = useNavigation();
 
@@ -34,7 +34,7 @@ export default function Anddress(){
                     <Input title='UF' marginTop={'7%'} width={'15%'} type={'numeric'} size={20} limit={20} passowrd={true} onReturn={returnValue}/>
                     <View style={styles.buttom}>
                         <View style={styles.bt}>
-                            <Buttom title='' icon='arrow-forward-outline' size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={0} border={32} just={'center'} aling={'center'} function={home}/>
+                            <Buttom title='' icon='arrow-forward-outline' size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={0} border={90} just={'center'} aling={'center'} function={home}/>
                         </View>
                     </View>
                 </ScrollView> 
