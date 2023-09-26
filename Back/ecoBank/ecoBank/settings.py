@@ -89,7 +89,8 @@ TEMPLATES = [
 
 
 DJOSER = {
-    'LOGIN_FIELD': 'identification_number'
+    'LOGIN_FIELD': 'identification_number',
+    'USER_ID_FIELD': 'identification_number'
 }
 
 WSGI_APPLICATION = 'ecoBank.wsgi.application'
@@ -153,6 +154,8 @@ AUTH_USER_MODEL = 'api.CustomUsuario'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
+    'DATE_FORMAT': "%d/%m/%Y",
+    'DATE_INPUT_FORMATS': ["%d/%m/%Y"],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
         'rest_framework.permissions.IsAuthenticated'
@@ -167,3 +170,4 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 }
+

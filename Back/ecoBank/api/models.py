@@ -40,7 +40,7 @@ class UsuarioManager(BaseUserManager):
 
 
 class CustomUsuario(AbstractUser):
-    identification_number = models.CharField('Identification Number', max_length=14, unique=True)
+    identification_number = models.CharField('Identification Number', max_length=14, unique=True, primary_key=True)
     photograph = models.CharField('Photograph', max_length=400, blank=True)
     is_staff = models.BooleanField('Membro', default=True)
     token = models.CharField('Token', max_length=255, blank=True, null=True)
@@ -125,7 +125,7 @@ class Email(models.Model):
 
 class Phone(models.Model):
     client = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='client_phones')
-    phone = models.CharField('Phone', max_length=9, unique=True)
+    phone = models.CharField('Phone', max_length=10, unique=True)
     prefix_number = models.CharField('Prefix Number', max_length=2)
     area_code = models.CharField('Area Code', max_length=2)
 

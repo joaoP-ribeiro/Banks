@@ -1,6 +1,7 @@
 import {View, ScrollView} from "react-native"
 import { useNavigation } from '@react-navigation/native';
 import {useState} from "react"
+import { useRoute } from '@react-navigation/native';
 import styles from "./style"
 import Buttom from "../../Components/Buttom"
 import Title from "../../Components/Title";
@@ -8,6 +9,9 @@ import Input from "../../Components/Input";
 
 
 export default function LegalAccount(){
+    const route = useRoute();
+    const { valueIdentificationNumber } = route.params as { valueIdentificationNumber: string }
+
     const [value, setValue] = useState("")
     const navigation = useNavigation();
 
