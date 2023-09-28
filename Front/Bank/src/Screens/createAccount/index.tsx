@@ -24,25 +24,11 @@ export default function CreateAccount(){
                     password: valuePass,
                 })
 
-                const authToken = login.data.token;
-                console.log(authToken)
-
                 if(selectedButton === 'Normal'){
-                    try{
-                        const login = await axios.post('http://10.109.71.3:8000/bank/api/v1/auth/token/login/', {
-                            identification_number: valueIdentificationNumber,
-                            password: valuePass,
-                        })
-
-                        navigation.navigate('normalAccount', {valueIdentificationNumber: valueIdentificationNumber, token: authToken})
-                    }
-                    catch(error) {
-                        console.error(error);
-                    }
-                    
+                    navigation.navigate('normalAccount', {valueIdentificationNumber: valueIdentificationNumber, valuePass: valuePass})   
                 }
                 else{
-                    navigation.navigate('legalAccount', {valueIdentificationNumber: valueIdentificationNumber, token: authToken})
+                    navigation.navigate('legalAccount', {valueIdentificationNumber: valueIdentificationNumber, })
                 }
             }
             catch(error) {

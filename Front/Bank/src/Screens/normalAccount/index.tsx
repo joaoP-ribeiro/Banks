@@ -1,6 +1,6 @@
 import {View, ScrollView} from "react-native"
 import { useNavigation } from '@react-navigation/native';
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import { useRoute } from '@react-navigation/native'
 import styles from "./style"
 import axios from "axios";
@@ -13,28 +13,72 @@ import DateInp from "../../Components/Date";
 export default function NormalAccount(){
     const route = useRoute();
     const { valueIdentificationNumber } = route.params as { valueIdentificationNumber: string }
-    const { token } = route.params as { token: string }
+    const { valuePass } = route.params as { valuePass: string }
+    const [valueToken, setValueToken] = useState("")
+
     const [valueBirthdate, setValueBirthdate] = useState("")
-    const [valueCPF, setValueCPF] = useState("")
     const [valueRG, setValueRG] = useState("")
     const [valueEmail, setValueEmail] = useState("")
     const [valuePhone, setValuePhone] = useState("")
     const [valueName, setValueName] = useState("")
     const navigation = useNavigation();
 
+    /*556291f7565e9bb31135bc6834c4d3fabad41aae*/ 
+    const tokens = (token: string) => {setValueToken(token)}
+
+    useEffect(() => {
+        const login = async () => {
+            try {
+                const login = await axios.post('http://10.109.71.3:8000/bank/api/v1/auth/token/login/', {
+                    identification_number: valueIdentificationNumber,
+                    password: valuePass,
+                });
+
+                const token = login.data.auth_token;
+                tokens(token)
+                
+                
+
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        login()
+    }, [valueIdentificationNumber, valuePass]);
+
 
     const address = async () =>{
         try{
                 
-            const create = await axios.post('http://10.109.71.3:8000/bank/api/v1/query/natural/person/', {
+            const naturalCreate = await axios.post('http://10.109.71.3:8000/bank/api/v1/query/natural/person/', {
                 headers: {
-                    'Authorization': `Token ${token}`,
+                    'Authorization': `Token ${valueToken}`,
                 },
                 name: valueName,
-                birthdate: valueBirthdate,
-                cpf: valueCPF,
+                birthdate: String(valueBirthdate),
+                cpf: "",
                 rg: valueRG,
                 client: valueIdentificationNumber
+            })
+
+            const emailCreate = await axios.post('http://10.109.71.3:8000/bank/api/v1/query/email/', {
+                headers: {
+                    'Authorization': `Token ${valueToken}`,
+                },
+                
+                client: valueIdentificationNumber,
+                email: String(valueEmail)
+            })
+
+            const phoneCreate = await axios.post('http://10.109.71.3:8000/bank/api/v1/query/phone/', {
+                headers: {
+                    'Authorization': `Token ${valueToken}`,
+                },
+                
+                client: valueIdentificationNumber,
+                phone: String(valuePhone),
+                area_code: '55',
+                prefix_number: ''
             })
 
             navigation.navigate('address')
@@ -55,19 +99,16 @@ export default function NormalAccount(){
             <View style={styles.login}>
             <Title title='Normal Account' size={30} textColor='#000' marginTop={'5%'}/>
                 <ScrollView>
-                    <Input title={token} marginTop={'5%'} width={'80%'} type={'default'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
+                    <Input title='Name' marginTop={'5%'} width={'80%'} type={'default'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
                         setValueName(newValue)
                     }}/>
                     <DateInp title='Birthdate' onReturn={(newValue: string) => {
                         setValueBirthdate(newValue)
                     }}/>
-                    <Input title='CPF' marginTop={'5%'} width={'80%'} type={'numeric'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
-                        setValueCPF(newValue)
-                    }}/>
                     <Input title='RG' marginTop={'5%'} width={'80%'} type={'numeric'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
                         setValueRG(newValue)
                     }}/>
-                    <Input title='Email' marginTop={'5%'} width={'80%'} type={'email-address'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
+                    <Input title='Email' marginTop={'5%'} width={'80%'} type={'email-address'} size={20} limit={50} passowrd={false} onReturn={(newValue: string) => {
                         setValueEmail(newValue)
                     }}/>
                     <Phone title="Phone" onReturn={(newValue: string) => {
