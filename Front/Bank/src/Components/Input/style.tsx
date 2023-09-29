@@ -22,7 +22,7 @@ const styles = ({width, marginTop, size}:Props) => {
         text:{
             fontSize: size,
             fontWeight: 'bold',
-            color: '#000'
+            color: '#7200E3'
         },
 
         inp:{

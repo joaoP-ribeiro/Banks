@@ -6,9 +6,13 @@ import styles from "./style"
 import Buttom from "../../Components/Buttom"
 import Title from "../../Components/Title";
 import Input from "../../Components/Input";
+import { useContext } from 'react';
+import { AuthContext } from "../../context";
 
 
 export default function CreateAccount(){
+    const authContext = useContext(AuthContext);
+
     const [valuePass, setValuePass] = useState("")
     const [valuePassConf, setValuePassConf] = useState("")
     const [valueIdentificationNumber, setvalueIdentificationNumber] = useState("")
@@ -24,12 +28,26 @@ export default function CreateAccount(){
                     password: valuePass,
                 })
 
-                if(selectedButton === 'Normal'){
-                    navigation.navigate('normalAccount', {valueIdentificationNumber: valueIdentificationNumber, valuePass: valuePass})   
-                }
-                else{
-                    navigation.navigate('legalAccount', {valueIdentificationNumber: valueIdentificationNumber, })
-                }
+                try {
+                    const login = await axios.post('http://10.109.71.3:8000/bank/api/v1/auth/token/login/', {
+                        identification_number: valueIdentificationNumber,
+                        password: valuePass,
+                    });
+    
+                    const token = login.data.auth_token;
+                    authContext.setAuthToken(token);
+                    authContext.setValueIdentificationNumber(valueIdentificationNumber)
+
+                    if(selectedButton === 'Normal'){
+                        navigation.navigate('normalAccount')   
+                    }
+                    else{
+                        navigation.navigate('legalAccount')
+                    }
+                    
+                } catch (error) {
+                    console.error(error);
+                }   
             }
             catch(error) {
                 console.error(error);
