@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUsuario, NaturalPerson, LegalPerson, Email, Phone, Address
+from .models import CustomUsuario, NaturalPerson, LegalPerson, Email, Phone, Address, Account, Card
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -26,6 +26,20 @@ class NaturalPersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = NaturalPerson
         fields = '__all__'
+              
+class CardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Card
+        fields = '__all__'
+        
+class AccountSerializer(serializers.ModelSerializer):
+    card = CardSerializer(source='account_card', read_only=True)
+    class Meta:
+        model = Account
+        fields = [
+            'card',
+        ]
+        
 
 class ClientSerializer(serializers.ModelSerializer):
     natural_person = NaturalPersonSerializer(source='client_naturalPerson', read_only=True)
@@ -33,6 +47,7 @@ class ClientSerializer(serializers.ModelSerializer):
     emails = EmailSerializer(source='client_emails', many=True, read_only=True)
     phones = PhoneSerializer(source='client_phones', many=True, read_only=True)
     addresses = AddressSerializer(source='client_addresses', many=True, read_only=True)
+    account = AccountSerializer(source='client_account', read_only=True)
 
     class Meta:
         model = CustomUsuario
@@ -44,4 +59,6 @@ class ClientSerializer(serializers.ModelSerializer):
             'emails',
             'phones',
             'addresses',
+            'account'
         ]
+

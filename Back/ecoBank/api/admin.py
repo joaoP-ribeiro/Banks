@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .forms import CustomUsuarioChangeForm, CustomUsuarioCreateForm
-from .models import Address, Phone, Email, NaturalPerson, LegalPerson, CustomUsuario
+from .forms import CustomUsuarioChangeForm, CustomUsuarioCreateForm, AccountChangeForm, AccountCreateForm
+from .models import Address, Phone, Email, NaturalPerson, LegalPerson, CustomUsuario, Card, Account
 
 class AddressInline(admin.StackedInline):
     model = Address
@@ -21,6 +21,14 @@ class NaturalPersonInline(admin.StackedInline):
 
 class LegalPersonInline(admin.StackedInline):
     model = LegalPerson
+    extra = 0
+
+class AccountInline(admin.StackedInline):
+    model = Account
+    extra = 0
+    
+class CardInline(admin.StackedInline):
+    model = Card
     extra = 0
 
 @admin.register(CustomUsuario)
@@ -52,7 +60,7 @@ class CustomUsuarioAdmin(UserAdmin):
         ],
     ]
 
-    inlines = [AddressInline, EmailInline, PhoneInline, NaturalPersonInline, LegalPersonInline]
+    inlines = [AddressInline, EmailInline, PhoneInline, NaturalPersonInline, LegalPersonInline, AccountInline]
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
@@ -73,3 +81,15 @@ class NaturalPersonAdmin(admin.ModelAdmin):
 @admin.register(LegalPerson)
 class LegalPersonAdmin(admin.ModelAdmin):
     list_display = ['client', 'fantasy_name', 'establishment_date', 'cnpj', 'im', 'ie', 'legalNature' ]
+    
+    
+@admin.register(Account)
+class AccountAdmin(admin.ModelAdmin):
+    add_form = AccountCreateForm
+    form = AccountChangeForm
+    list_display = ['client', 'agency', 'number', 'typee', 'credit_limit', 'saldo', 'status' ]
+    inlines = [CardInline]
+    
+@admin.register(Card)
+class CardAdmin(admin.ModelAdmin):
+    list_display = ['account', 'number', 'expiration_date', 'verification_number', 'status']

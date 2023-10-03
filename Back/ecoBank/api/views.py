@@ -2,10 +2,9 @@ from django.shortcuts import render
 from django.shortcuts import render
 
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, serializers
-from .models import CustomUsuario, NaturalPerson, Email, Phone, LegalPerson, Address
-from .serializer import ClientSerializer, EmailSerializer, PhoneSerializer, AddressSerializer, NaturalPersonSerializer, LegalPersonSerializer
+from rest_framework import viewsets
+from .models import CustomUsuario, NaturalPerson, Email, Phone, LegalPerson, Address, Account, Card
+from .serializer import ClientSerializer, EmailSerializer, PhoneSerializer, AddressSerializer, NaturalPersonSerializer, LegalPersonSerializer, AccountSerializer, CardSerializer
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -36,6 +35,14 @@ class LegalPersonView(viewsets.ModelViewSet):
 class ClientView(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
     queryset = CustomUsuario.objects.all()
+    
+class AccountView(viewsets.ModelViewSet):
+    serializer_class = AccountSerializer
+    queryset = Account.objects.all()
+    
+class CardView(viewsets.ModelViewSet):
+    serializer_class = CardSerializer
+    queryset = Card.objects.all()
 
 
 class ClientViewSet(viewsets.ModelViewSet):

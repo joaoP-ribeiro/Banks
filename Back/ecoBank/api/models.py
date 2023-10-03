@@ -87,7 +87,7 @@ class LegalPerson(models.Model):
     client = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name='client_legalPerson')
     fantasy_name = models.CharField('Fantasy Name', max_length=80)
     establishment_date = models.DateField()
-    cnpj = models.CharField('CNPJ', max_length=14, unique=True)
+    cnpj = models.CharField('CNPJ', max_length=14, unique=True,  blank=True, null=True)
     im = models.CharField('IM', max_length=20, unique=True)
     ie = models.CharField('IE', max_length=20, unique=True)
     legalNature = models.CharField('Legal Nature', max_length=80)
@@ -134,13 +134,13 @@ class Phone(models.Model):
 class Account(models.Model):
     client = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='client_account')
     agency = models.CharField('Agency', max_length=4)
-    number = models.CharField('Number', max_length=7, unique=True)
+    number = models.CharField('Number', max_length=7, unique=True, blank=True, null=True)
     typee = models.CharField('Type', max_length=10)
     credit_limit = models.DecimalField("CreditLimit", max_digits=15, decimal_places=2)
     saldo = models.DecimalField("Saldo", max_digits=15, decimal_places=2)
     status = models.CharField('Status', max_length=10)
 
-    def save(self, resultado=None, *args, **kwargs):
+    """def save(self, resultado=None, *args, **kwargs):
         for i in range(0, 7):
             if i == 5:
                 numeros = "-"
@@ -148,7 +148,7 @@ class Account(models.Model):
             numeros =  random.randint(0, 9)
             resultado += str(numeros)
         self.number = resultado 
-        super(Account, self).save(*args, **kwargs)
+        super(Account, self).save(*args, **kwargs)"""
 
     def __str__(self):
         return f'{self.number}'
