@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from .models import CustomUsuario, Account
+from .models import CustomUsuario, Account, Card
 
 
 class CustomUsuarioCreateForm(UserCreationForm):
@@ -23,7 +23,7 @@ class CustomUsuarioChangeForm(UserChangeForm):
     class Meta:
         model = CustomUsuario
         fields = ['photograph', 'token']
-        
+
 
 class AccountCreateForm(UserCreationForm):
     class Meta:
@@ -32,11 +32,20 @@ class AccountCreateForm(UserCreationForm):
         labels = {'username': 'number'}
 
 
-
 class AccountChangeForm(UserChangeForm):
     class Meta:
         model = Account
         fields = ['client', 'agency', 'typee', 'credit_limit', 'saldo', 'status']
 
 
+class CardCreateForm(UserCreationForm):
+    class Meta:
+        model = Card
+        fields = ['account', 'expiration_date', 'verification_number', 'status']
+        labels = {'username': 'number'}
 
+
+class CardChangeForm(UserChangeForm):
+    class Meta:
+        model = Card
+        fields = ['account', 'number', 'expiration_date', 'verification_number', 'status']

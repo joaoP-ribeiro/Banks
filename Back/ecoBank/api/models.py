@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, Group, Permission
@@ -160,9 +162,22 @@ class Card(models.Model):
     verification_number = models.CharField('Verification Number', max_length=3)
     status = models.CharField('Status', max_length=10)
 
-    
     def __str__(self):
         return f'{self.number}'
+
+class Transaction(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='transaction_card')
+    transaction_type = models.CharField('Type', max_length=20)
+    date = models.DateField(null=True, blank=True)
+    description = models.CharField('Description', max_length=100)
+    value = models.DecimalField("Value", max_digits=15, decimal_places=2)
+
+    def save(self, resultado=None, *args, **kwargs):
+        now = datetime.now()
+        self.date = now.date()
+        super(Transaction, self).save(*args, **kwargs)
+    def __str__(self):
+        return f'{self.date}'
 
 @receiver(post_save, sender=CustomUsuario)
 def create_token_for_user(sender, instance, created, **kwargs):

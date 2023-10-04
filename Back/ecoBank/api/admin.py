@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .forms import CustomUsuarioChangeForm, CustomUsuarioCreateForm, AccountChangeForm, AccountCreateForm
-from .models import Address, Phone, Email, NaturalPerson, LegalPerson, CustomUsuario, Card, Account
+from .forms import CustomUsuarioChangeForm, CustomUsuarioCreateForm, AccountChangeForm, AccountCreateForm, CardChangeForm, CardCreateForm
+from .models import Address, Phone, Email, NaturalPerson, LegalPerson, CustomUsuario, Card, Account, Transaction
 
 class AddressInline(admin.StackedInline):
     model = Address
@@ -29,6 +29,10 @@ class AccountInline(admin.StackedInline):
     
 class CardInline(admin.StackedInline):
     model = Card
+    extra = 0
+
+class TransactionInline(admin.StackedInline):
+    model = Transaction
     extra = 0
 
 @admin.register(CustomUsuario)
@@ -92,4 +96,10 @@ class AccountAdmin(admin.ModelAdmin):
     
 @admin.register(Card)
 class CardAdmin(admin.ModelAdmin):
+    add_form = CardCreateForm
+    form = CardChangeForm
     list_display = ['account', 'number', 'expiration_date', 'verification_number', 'status']
+    inlines = [TransactionInline]
+@admin.register(Transaction)
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = ['card', 'transaction_type', 'date', 'description', 'value']

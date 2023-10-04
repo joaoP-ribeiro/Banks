@@ -3,8 +3,8 @@ from django.shortcuts import render
 
 from django.db.models import Q
 from rest_framework import viewsets
-from .models import CustomUsuario, NaturalPerson, Email, Phone, LegalPerson, Address, Account, Card
-from .serializer import ClientSerializer, EmailSerializer, PhoneSerializer, AddressSerializer, NaturalPersonSerializer, LegalPersonSerializer, AccountSerializer, CardSerializer
+from .models import CustomUsuario, NaturalPerson, Email, Phone, LegalPerson, Address, Account, Card, Transaction
+from .serializer import ClientSerializer, EmailSerializer, PhoneSerializer, AddressSerializer, NaturalPersonSerializer, LegalPersonSerializer, AccountSerializer, CardSerializer, TransactionSerializer
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -43,6 +43,10 @@ class AccountView(viewsets.ModelViewSet):
 class CardView(viewsets.ModelViewSet):
     serializer_class = CardSerializer
     queryset = Card.objects.all()
+
+class TransactionView(viewsets.ModelViewSet):
+    serializer_class = TransactionSerializer
+    queryset = Transaction.objects.all()
 
 
 class ClientViewSet(viewsets.ModelViewSet):
