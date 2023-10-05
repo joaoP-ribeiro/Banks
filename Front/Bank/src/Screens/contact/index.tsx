@@ -4,6 +4,7 @@ import {useState, useEffect} from "react"
 import { useRoute } from '@react-navigation/native'
 import styles from "./style"
 import axios from "axios";
+import * as yup from "yup"
 import Buttom from "../../Components/Buttom"
 import Title from "../../Components/Title";
 import Input from "../../Components/Input";
@@ -20,6 +21,11 @@ export default function Contact(){
     const [valuePhone, setValuePhone] = useState("")
     const navigation = useNavigation();
 
+    const schema = yup.object().shape({
+        email: yup.string().required('O email é obrigatório'),
+        phone: yup.string().required('O telefone é obrigatória'),
+    });
+
 
     const contact = async () =>{
         const cleanedPhoneNumber = valuePhone.replace(/\(\d+\)/, '')
@@ -31,7 +37,10 @@ export default function Contact(){
         }
 
         try{
-            const email = await axios.post('http://10.109.71.3:8000/bank/api/v1/query/email/', {
+
+            await schema.validate({ email: valueEmail, phone: valuePhone,}, { abortEarly: false })
+
+            const email = await axios.post('http://10.109.71.7:8000/bank/api/v1/query/email/', {
                 email: modifiedEmail,
                 client: authIdentificationNumber
             }, {
@@ -39,7 +48,7 @@ export default function Contact(){
                     'Authorization': `Token ${authToken}`
                 }
             });
-            const phone = await axios.post('http://10.109.71.3:8000/bank/api/v1/query/phone/', {
+            const phone = await axios.post('http://10.109.71.7:8000/bank/api/v1/query/phone/', {
                 phone: cleanedPhoneNumber,
                 prefix_number: valuePhone[1]+valuePhone[2],
                 area_code: "55",

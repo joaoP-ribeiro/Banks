@@ -1,32 +1,43 @@
-import {View, ScrollView} from "react-native"
+import {View, ScrollView, Alert} from "react-native"
 import { useNavigation } from '@react-navigation/native';
 import {useState} from "react"
 import axios from 'axios'
+import * as yup from 'yup'
 import styles from "./style"
 import Buttom from "../../Components/Buttom"
 import Title from "../../Components/Title";
 import Input from "../../Components/Input";
+import { useContext } from 'react';
+import { AuthContext } from "../../context";
 
 
 export default function Login(){
+    const authContext = useContext(AuthContext);
     const [valueNumber, setValueNumber] = useState("")
     const [valuePass, setValuePass] = useState("")
     const navigation = useNavigation();
 
+    const schema = yup.object().shape({
+        number: yup.string().required('O número é obrigatório'),
+        password: yup.string().required('A senha é obrigatória'),
+    });
+
+
     const home = async () =>{
         try{
-            const loginUrl = await axios.post("http://10.109.71.3:8000/bank/api/v1/auth/token/login/", {
+            await schema.validate({ number: valueNumber, password: valuePass }, { abortEarly: false });
+            
+            const loginUrl = await axios.post("http://10.109.71.7:8000/bank/api/v1/auth/token/login/", {
                 identification_number: valueNumber,
                 password: valuePass,
             })
 
             const token = loginUrl.data.auth_token
-            console.log(token)
-
-            navigation.navigate('inicialPage')
+            authContext.setAuthToken(token);
+            authContext.setValueIdentificationNumber(valueNumber)
         }
         catch(error) {
-            console.error(error);
+            Alert.alert('Erro', String(error))
         }
        
     }

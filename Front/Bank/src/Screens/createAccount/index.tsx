@@ -1,7 +1,8 @@
-import {View, ScrollView} from "react-native"
+import {View, ScrollView, Alert} from "react-native"
 import { useNavigation } from '@react-navigation/native';
 import {useState} from "react"
 import axios from "axios";
+import * as yup from 'yup'
 import styles from "./style"
 import Buttom from "../../Components/Buttom"
 import Title from "../../Components/Title";
@@ -19,17 +20,25 @@ export default function CreateAccount(){
     const [selectedButton, setSelectedButton] = useState('Normal')
     const navigation = useNavigation();
 
+    const schema = yup.object().shape({
+        identification_number: yup.string().required('O numero de identificação é obrigatório'),
+        password: yup.string().required('A senha é obrigatória'),
+        confirmPassword: yup.string().required('A confirmação de senha é obrigatória'),
+    });
+
     const TypeAccount = async () =>{
         if(valuePass === valuePassConf){
             try{
                 
-                const create = await axios.post('http://10.109.71.3:8000/bank/api/v1/auth/users/', {
+                await schema.validate({ identification_number: valueIdentificationNumber, password: valuePass, confirmPassword: valuePassConf}, { abortEarly: false })
+            
+                const create = await axios.post('http://10.109.71.7:8000/bank/api/v1/auth/users/', {
                     identification_number: valueIdentificationNumber,
                     password: valuePass,
                 })
-
+            
                 try {
-                    const login = await axios.post('http://10.109.71.3:8000/bank/api/v1/auth/token/login/', {
+                    const login = await axios.post('http://10.109.71.7:8000/bank/api/v1/auth/token/login/', {
                         identification_number: valueIdentificationNumber,
                         password: valuePass,
                     });
@@ -45,13 +54,17 @@ export default function CreateAccount(){
                         navigation.navigate('legalAccount')
                     }
                     
-                } catch (error) {
-                    console.error(error);
-                }   
-            }
+                    } catch (error) {
+                        Alert.alert('Error', 'Erro de identificação')
+                        
+                    }   
+                }
             catch(error) {
-                console.error(error);
+                Alert.alert('Erro', String(error))
+                
             }
+        } else{
+            Alert.alert('Erro', 'confira se as senhas estão iguais')
         }
        
     }

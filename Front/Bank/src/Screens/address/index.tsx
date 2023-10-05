@@ -1,7 +1,8 @@
-import {View, ScrollView} from "react-native"
+import {View, ScrollView, Alert} from "react-native"
 import { useNavigation } from '@react-navigation/native';
 import {useState} from "react"
 import styles from "./style"
+import * as yup from 'yup'
 import Buttom from "../../Components/Buttom"
 import Title from "../../Components/Title";
 import Input from "../../Components/Input";
@@ -21,10 +22,21 @@ export default function Address(){
     const [valueNeighborhood, setValueNeighborhood] = useState("")
     const [valueUF, setValueUF] = useState("")
     const navigation = useNavigation();
+
+    const schema = yup.object().shape({
+        cep: yup.string().required('O CEP é obrigatório'),
+        city: yup.string().required('A cidade é obrigatória'),
+        street: yup.string().required('A rua é obrigatória'),
+        neighborhood: yup.string().required('O bairro é obrigatório'),
+        uf: yup.string().required('O estado é obrigatório'),
+    });
     
     const address = async () =>{
         try{
-            const address = await axios.post('http://10.109.71.3:8000/bank/api/v1/query/address/', {
+
+            await schema.validate({ cep: valueCEP, city: valueCity, street: valueCEP, neighborhood: valueCity, uf: valueCEP}, { abortEarly: false })
+
+            const address = await axios.post('http://10.109.71.7:8000/bank/api/v1/query/address/', {
                 cep: valueCEP,
                 city: valueCity,
                 street: valueStreet,
@@ -39,7 +51,7 @@ export default function Address(){
             navigation.navigate('inicialPage')
         }
         catch(error) {
-            console.error(error);
+           Alert.alert('Error', String(error))
         }
     }
 

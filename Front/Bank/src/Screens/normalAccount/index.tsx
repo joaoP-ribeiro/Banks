@@ -1,9 +1,10 @@
-import {View, ScrollView} from "react-native"
+import {View, ScrollView, Alert} from "react-native"
 import { useNavigation } from '@react-navigation/native';
 import {useState, useEffect} from "react"
 import { useRoute } from '@react-navigation/native'
 import styles from "./style"
-import axios from "axios";
+import axios from "axios"
+import * as yup from 'yup'
 import Buttom from "../../Components/Buttom"
 import Title from "../../Components/Title";
 import Input from "../../Components/Input";
@@ -22,9 +23,18 @@ export default function NormalAccount(){
     const [valueName, setValueName] = useState("")
     const navigation = useNavigation();
 
+    const schema = yup.object().shape({
+        name: yup.string().required('O nome é obrigatório'),
+        birthdate: yup.string().required('A data de nascimento é obrigatória'),
+        rg: yup.string().required('A RG é obrigatória'),
+    });
+
     const naturalPerson = async () =>{
         try{
-            const naturalCreate = await axios.post('http://10.109.71.3:8000/bank/api/v1/query/natural/person/', {
+
+            await schema.validate({ name: valueName, birthdate: valueBirthdate, rg: valueRG}, { abortEarly: false })
+            
+            const naturalCreate = await axios.post('http://10.109.71.7:8000/bank/api/v1/query/natural/person/', {
                 name: valueName,
                 birthdate: valueBirthdate,
                 cpf: "",
@@ -40,7 +50,7 @@ export default function NormalAccount(){
             navigation.navigate('contact')
         }
         catch(error) {
-            console.error(error);
+           Alert.alert('Error', String(error))
         }    
     }
     return(
