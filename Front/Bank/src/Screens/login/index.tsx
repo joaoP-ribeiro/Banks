@@ -35,6 +35,8 @@ export default function Login(){
             const token = loginUrl.data.auth_token
             authContext.setAuthToken(token);
             authContext.setValueIdentificationNumber(valueNumber)
+
+            navigation.navigate('home')
         }
         catch(error) {
             Alert.alert('Erro', String(error))

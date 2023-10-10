@@ -9,6 +9,7 @@ import NormalAccount from '../Screens/normalAccount';
 import LegalAccount from '../Screens/legalAccount';
 import Address from '../Screens/address';
 import Contact from '../Screens/contact';
+import TabNav from './TabNav';
 
 const Stack = createStackNavigator()
 
@@ -25,6 +26,7 @@ export default function NavScreens() {
           
             <Stack.Screen name="address" component={Address} options={{headerShown: false}}/>
             <Stack.Screen name="contact" component={Contact} options={{headerShown: false}}/>
+            <Stack.Screen name="home" component={TabNav} options={{headerShown: false}}/>
           </Stack.Navigator>
         </AuthProvider>
       </NavigationContainer>

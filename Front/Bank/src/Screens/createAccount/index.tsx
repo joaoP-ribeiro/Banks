@@ -75,17 +75,17 @@ export default function CreateAccount(){
                 <Title title='Bank' size={20} textColor='#FFFFFF' marginTop={'7%'}/>
             </View>
             <View style={styles.login}>
-            <Title title='Type Account' size={30} textColor='#000' marginTop={'5%'}/>
-            <View style={styles.navButtons}>
-                <View style={styles.navB}>
-                    <Buttom title='Normal' icon='' size={20} color={selectedButton === 'Normal' ? '#FFBD15' : '#EBEBEB'} textColor='#000' width={125} heigth={40} marginTop={0} border={32} just={'center'} aling={'center'} function={() => {
-                setSelectedButton('Normal')}}/>
+                <Title title='Type Account' size={30} textColor='#000' marginTop={'5%'}/>
+                <View style={styles.navButtons}>
+                    <View style={styles.navB}>
+                        <Buttom title='Normal' icon='' size={20} color={selectedButton === 'Normal' ? '#FFBD15' : '#EBEBEB'} textColor='#000' width={125} heigth={40} marginTop={0} border={32} just={'center'} aling={'center'} function={() => {
+                    setSelectedButton('Normal')}}/>
+                    </View>
+                    <View style={styles.navB}>
+                        <Buttom title='Legal' icon='' size={20} color={selectedButton === 'Legal' ? '#FFBD15' : '#EBEBEB'} textColor='#000' width={125} heigth={40} marginTop={0} border={32} just={'center'} aling={'center'} function={() => {
+                    setSelectedButton('Legal')}}/>
+                    </View>
                 </View>
-                <View style={styles.navB}>
-                    <Buttom title='Legal' icon='' size={20} color={selectedButton === 'Legal' ? '#FFBD15' : '#EBEBEB'} textColor='#000' width={125} heigth={40} marginTop={0} border={32} just={'center'} aling={'center'} function={() => {
-                setSelectedButton('Legal')}}/>
-                </View>
-            </View>
                 <ScrollView>
                     {selectedButton === 'Normal' && (
                         <Input title='CPF' marginTop={'5%'} width={'80%'} type={'numeric'} size={20} limit={11} passowrd={false} onReturn={(newValue: string) => {
