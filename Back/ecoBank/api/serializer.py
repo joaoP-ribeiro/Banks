@@ -47,6 +47,7 @@ class CardSerializer(serializers.ModelSerializer):
             'account',
             'number',
             'expiration_date',
+            'create_date',
             'status',
             'verification_number',
             'transaction'
@@ -81,6 +82,7 @@ class ClientSerializer(serializers.ModelSerializer):
         model = CustomUsuario
         fields = [
             'identification_number',
+            'typee',
             'photograph',
             'natural_person',
             'legal_person',
@@ -88,4 +90,12 @@ class ClientSerializer(serializers.ModelSerializer):
             'phones',
             'addresses',
             'account'
+        ]
+
+class PixSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = [
+            'receive_account',
+            'value'
         ]

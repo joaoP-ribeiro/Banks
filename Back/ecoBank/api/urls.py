@@ -1,13 +1,13 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ClientView, AnddressView, ClientViewSet, PhoneView, EmailView, NaturalPersonView, LegalPersonView, AccountView, CardView, TransactionView
+from .views import ClientView, AnddressView, ClientViewSet, PhoneView, EmailView, NaturalPersonView, LegalPersonView, AccountView, CardView, PixSerializer
 
 router = DefaultRouter()
 router.register('view/clients', ClientViewSet, basename='view')
 router.register('clients', ClientView, basename='clients')
 router.register('account', AccountView, basename='account')
 router.register('card', CardView, basename='card')
-router.register('transaction', TransactionView, basename='transaction')
+router.register('transaction', PixSerializer, basename='transaction')
 router.register('phone', PhoneView, basename='phone')
 router.register('email', EmailView, basename='email')
 router.register('natural/person', NaturalPersonView, basename='natural')

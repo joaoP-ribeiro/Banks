@@ -3,8 +3,9 @@ from django.shortcuts import render
 
 from django.db.models import Q
 from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
 from .models import CustomUsuario, NaturalPerson, Email, Phone, LegalPerson, Address, Account, Card, Transaction
-from .serializer import ClientSerializer, EmailSerializer, PhoneSerializer, AddressSerializer, NaturalPersonSerializer, LegalPersonSerializer, AccountSerializer, CardSerializer, TransactionSerializer
+from .serializer import ClientSerializer, EmailSerializer, PhoneSerializer, AddressSerializer, NaturalPersonSerializer, LegalPersonSerializer, AccountSerializer, CardSerializer, PixSerializer
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -44,9 +45,23 @@ class CardView(viewsets.ModelViewSet):
     serializer_class = CardSerializer
     queryset = Card.objects.all()
 
-class TransactionView(viewsets.ModelViewSet):
-    serializer_class = TransactionSerializer
+class PixView(viewsets.GenericViewSet):
+    serializer_class = PixSerializer
     queryset = Transaction.objects.all()
+    
+    def create(self, request):
+        id_pay_account = request.data.get('pay_account')
+        id_receive_account = request.data.get('receive_account')
+        value = request.data.get('value')
+        
+        pay_account = get_object_or_404(Account, pk=id_pay_account)
+        receive_account = get_object_or_404(Account, pk=id_receive_account)
+        
+        pay_account.saldo += value
+        receive_account.saldo += value
+        
+        pay_account.save()
+        receive_account.save()
 
 
 class ClientViewSet(viewsets.ModelViewSet):

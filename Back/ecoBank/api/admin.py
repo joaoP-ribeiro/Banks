@@ -40,7 +40,7 @@ class CustomUsuarioAdmin(UserAdmin):
     add_form = CustomUsuarioCreateForm
     form = CustomUsuarioChangeForm
     model = CustomUsuario
-    list_display = ["identification_number", "photograph", "token"]
+    list_display = ["identification_number", "photograph", 'typee', "token"]
 
     fieldsets = [
         [
@@ -50,7 +50,7 @@ class CustomUsuarioAdmin(UserAdmin):
         ],
         [
             "Informações Pessoais", {
-                "fields": ["photograph"]
+                "fields": ["photograph", 'typee',]
             }
         ],
         [
@@ -98,8 +98,9 @@ class AccountAdmin(admin.ModelAdmin):
 class CardAdmin(admin.ModelAdmin):
     add_form = CardCreateForm
     form = CardChangeForm
-    list_display = ['account', 'number', 'expiration_date', 'verification_number', 'status']
+    list_display = ['account', 'number', 'create_date', 'expiration_date', 'verification_number', 'status']
     inlines = [TransactionInline]
+    
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ['card', 'transaction_type', 'date', 'description', 'value']

@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, timedelta  
+import bcrypt
 
 from django.db import models
 from django.db import models
@@ -43,6 +44,7 @@ class UsuarioManager(BaseUserManager):
 class CustomUsuario(AbstractUser):
     identification_number = models.CharField('Identification Number', max_length=14, unique=True, primary_key=True)
     photograph = models.CharField('Photograph', max_length=400, blank=True)
+    typee = models.CharField('Type', max_length=30, blank=True)
     is_staff = models.BooleanField('Membro', default=True)
     token = models.CharField('Token', max_length=255, blank=True, null=True)
 
@@ -77,6 +79,7 @@ class NaturalPerson(models.Model):
 
     def save(self, *args, **kwargs):
         self.cpf = self.client.identification_number
+        self.client.typee = "Normal"
         self.client.photograph = self.name[0]
         self.client.save()
         super(NaturalPerson, self).save(*args, **kwargs)
@@ -96,6 +99,7 @@ class LegalPerson(models.Model):
 
     def save(self, *args, **kwargs):
         self.cnpj = self.client.identification_number
+        self.client.typee = "Legal"
         self.client.photograph = self.fantasy_name[0]
         self.client.save()
         super(LegalPerson, self).save(*args, **kwargs)
@@ -135,49 +139,57 @@ class Phone(models.Model):
     
 class Account(models.Model):
     client = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='client_account')
-    agency = models.CharField('Agency', max_length=4)
-    number = models.CharField('Number', max_length=7, unique=True, blank=True, null=True)
-    typee = models.CharField('Type', max_length=10)
-    credit_limit = models.DecimalField("CreditLimit", max_digits=15, decimal_places=2)
-    saldo = models.DecimalField("Saldo", max_digits=15, decimal_places=2)
-    status = models.CharField('Status', max_length=10)
-
-    """def save(self, resultado=None, *args, **kwargs):
-        for i in range(0, 7):
-            if i == 5:
-                numeros = "-"
-                resultado += str(numeros)
-            numeros =  random.randint(0, 9)
-            resultado += str(numeros)
-        self.number = resultado 
-        super(Account, self).save(*args, **kwargs)"""
+    agency = models.CharField('Agency', max_length=4, blank=True)
+    number = models.CharField('Number', max_length=7, unique=True, blank=True, null=True, primary_key=True)
+    typee = models.CharField('Type', max_length=10, blank=True)
+    credit_limit = models.DecimalField("CreditLimit", max_digits=15, decimal_places=2, blank=True)
+    saldo = models.DecimalField("Saldo", max_digits=15, decimal_places=2, blank=True)
+    status = models.BooleanField('Status')
+    
+    def save(self, *args, **kwargs):
+        self.number = random.randint(1000000, 9999999)
+        self.agency = random.randint(1000, 9999)
+        self.typee = self.client.typee
+        self.credit_limit = 10000.00
+        self.saldo = 0.0
+        super(Account, self).save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.number}'
 
 class Card(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_card')
-    number = models.CharField('Number', max_length=8)
-    expiration_date = models.DateField()
-    verification_number = models.CharField('Verification Number', max_length=3)
-    status = models.CharField('Status', max_length=10)
+    number = models.CharField('Number', max_length=16, unique=True, blank=True, primary_key=True)
+    create_date = models.DateField(null=True, blank=True)
+    expiration_date = models.DateField(null=True, blank=True)
+    verification_number = models.CharField('Verification Number', max_length=3, blank=True)
+    status = models.BooleanField('Status')
+    
+    def save(self, *args, **kwargs):
+        self.number = random.randint(1000000000000000, 9999999999999999)
+        self.verification_number = random.randint(100, 999)
+        self.create_date = datetime.now()
+        self.expiration_date = datetime.now() + timedelta(days=(365))
+        self.status = True
+        super(Card, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.number}'
+        return f'Cartão {self.number} da Conta {self.account}'
 
 class Transaction(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='transaction_card')
-    transaction_type = models.CharField('Type', max_length=20)
     date = models.DateField(null=True, blank=True)
-    description = models.CharField('Description', max_length=100)
+    pay_account = models.CharField('Pay Account', max_length=7, blank=True)
+    receive_account = models.CharField('Account', max_length=7)
     value = models.DecimalField("Value", max_digits=15, decimal_places=2)
 
-    def save(self, resultado=None, *args, **kwargs):
-        now = datetime.now()
-        self.date = now.date()
+    def save(self, *args, **kwargs):
+        self.date = datetime.now()
+        self.pay_account = self.card.account.number
         super(Transaction, self).save(*args, **kwargs)
     def __str__(self):
-        return f'{self.date}'
+        return f'Transação da conta {self.pay_account} para a conta {self.receive_account} na data {self.date}'
+    
 
 @receiver(post_save, sender=CustomUsuario)
 def create_token_for_user(sender, instance, created, **kwargs):
