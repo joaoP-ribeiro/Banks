@@ -45,6 +45,7 @@ class CustomUsuario(AbstractUser):
     identification_number = models.CharField('Identification Number', max_length=14, unique=True, primary_key=True)
     photograph = models.CharField('Photograph', max_length=400, blank=True)
     typee = models.CharField('Type', max_length=30, blank=True)
+    account = models.CharField('Account', max_length=7, blank=True)
     is_staff = models.BooleanField('Membro', default=True)
     token = models.CharField('Token', max_length=255, blank=True, null=True)
 
@@ -138,24 +139,28 @@ class Phone(models.Model):
         return self.phone
     
 class Account(models.Model):
-    client = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='client_account')
+    client = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name='client_account')
     agency = models.CharField('Agency', max_length=4, blank=True)
-    number = models.CharField('Number', max_length=7, unique=True, blank=True, null=True, primary_key=True)
+    number = models.CharField('Number', max_length=7, unique=True, blank=True, primary_key=True)
     typee = models.CharField('Type', max_length=10, blank=True)
     credit_limit = models.DecimalField("CreditLimit", max_digits=15, decimal_places=2, blank=True)
     saldo = models.DecimalField("Saldo", max_digits=15, decimal_places=2, blank=True)
     status = models.BooleanField('Status')
     
     def save(self, *args, **kwargs):
-        self.number = random.randint(1000000, 9999999)
-        self.agency = random.randint(1000, 9999)
-        self.typee = self.client.typee
-        self.credit_limit = 10000.00
-        self.saldo = 0.0
-        super(Account, self).save(*args, **kwargs)
+        if not self.number:
+            self.number = str(random.randint(1000000, 9999999))
+        if not self.agency:
+            self.agency = str(random.randint(1000, 9999))
+        if not self.typee:
+            self.typee = self.client.typee
+        self.credit_limit = 10000.00 
+        if not self.pk:
+            self.saldo = 0.0
 
-    def __str__(self):
-        return f'{self.number}'
+        self.client.account = self.number
+        self.client.save()
+        super(Account, self).save(*args, **kwargs)
 
 class Card(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_card')
@@ -188,7 +193,32 @@ class Transaction(models.Model):
         self.pay_account = self.card.account.number
         super(Transaction, self).save(*args, **kwargs)
     def __str__(self):
-        return f'Transação da conta {self.pay_account} para a conta {self.receive_account} na data {self.date}'
+        return f'Transação da conta {self.pay_account} para a conta {self.receive_account} na data {self.date} no valor R$:{self.value}'
+    
+class Loan(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_loan')
+    date = models.DateField(null=True, blank=True)
+    installment_value = models.DecimalField('Installment Value', max_digits=15, decimal_places=2)
+    times = models.CharField('Times', max_length=2)
+    value = models.DecimalField("Value", max_digits=15, decimal_places=2)
+
+    def save(self, *args, **kwargs):
+        self.date = datetime.now()
+        super(Loan, self).save(*args, **kwargs)
+    def __str__(self):
+        return f'Imprestimo da conta {self.account} no valor de R$:{self.value} na data {self.date}'
+
+class Investment(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_investment')
+    date = models.DateField(null=True, blank=True)
+    expiration_date = models.DateField(null=True, blank=True)
+    value = models.DecimalField("Value", max_digits=15, decimal_places=2)
+
+    def save(self, *args, **kwargs):
+        self.date = datetime.now()
+        super(Investment, self).save(*args, **kwargs)
+    def __str__(self):
+        return f'Investimento da conta {self.account} no valor de R$:{self.value} na data {self.date}'
     
 
 @receiver(post_save, sender=CustomUsuario)

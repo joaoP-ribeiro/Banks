@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUsuario, NaturalPerson, LegalPerson, Email, Phone, Address, Account, Card, Transaction
+from .models import CustomUsuario, NaturalPerson, LegalPerson, Email, Phone, Address, Account, Card, Transaction, Loan, Investment
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -93,9 +93,36 @@ class ClientSerializer(serializers.ModelSerializer):
         ]
 
 class PixSerializer(serializers.ModelSerializer):
+    card = CardSerializer(source='transaction_card', read_only=True)
     class Meta:
         model = Transaction
         fields = [
+            'card',
+            'date',
+            'pay_account',
             'receive_account',
+            'value'
+        ]
+
+class LoanSerializer(serializers.ModelSerializer):
+    account = AccountSerializer(source='account_loan', read_only=True)
+    class Meta:
+        model = Loan
+        fields = [
+            'account',
+            'date',
+            'installment_value',
+            'times',
+            'value'
+        ]
+
+class InvestimentsSerializer(serializers.ModelSerializer):
+    account = AccountSerializer(source='account_investment', read_only=True)
+    class Meta:
+        model = Investment
+        fields = [
+            'account',
+            'date',
+            'expiration_date',
             'value'
         ]
