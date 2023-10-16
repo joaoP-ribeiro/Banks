@@ -48,6 +48,7 @@ export default function Address(){
                     'Authorization': `Token ${authToken}`
                 }
             });
+            
             navigation.navigate('home')
         }
         catch(error) {

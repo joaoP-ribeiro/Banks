@@ -52,23 +52,44 @@ class PixView(viewsets.GenericViewSet):
     
     def create(self, request):
         id_pay_account = request.data.get('pay_account')
+        id_card = request.data.get('card') 
         id_receive_account = request.data.get('receive_account')
         value = request.data.get('value')
         pay_account = get_object_or_404(Account, pk=id_pay_account)
+        card = get_object_or_404(Card, pk=id_card)
         receive_account = get_object_or_404(Account, pk=id_receive_account)
-        pay_account.saldo += value
+        
+        transaction = Transaction.objects.create(
+            card = card,
+            pay_account=pay_account,
+            receive_account=receive_account,
+            value=value
+        )
+
+        pay_account.saldo -= value
         receive_account.saldo += value
+
         pay_account.save()
         receive_account.save()
-
+        
 class LoanView(viewsets.ModelViewSet):
     serializer_class = LoanSerializer
     queryset = Loan.objects.all()
 
     def create(self, request):
         id_account = request.data.get('account')
+        installment_value = request.data.get('installment_value')
+        times = request.data.get('times')
         value = request.data.get('value')
         account = get_object_or_404(Account, pk=id_account)
+
+        loan = Loan.objects.create(
+            account = account,
+            installment_value = installment_value,
+            times = times,
+            value = value
+        )
+
         account.saldo += value
         account.save()
 
@@ -80,6 +101,12 @@ class InvestmentView(viewsets.ModelViewSet):
         id_account = request.data.get('account')
         value = request.data.get('value')
         account = get_object_or_404(Account, pk=id_account)
+
+        investiments = Investment.objects.create(
+            account = account,
+            value = value
+        )
+
         account.saldo -= value
         account.save()
 

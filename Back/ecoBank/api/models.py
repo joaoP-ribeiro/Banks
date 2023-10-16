@@ -139,7 +139,7 @@ class Phone(models.Model):
         return self.phone
     
 class Account(models.Model):
-    client = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name='client_account')
+    client = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='client_account')
     agency = models.CharField('Agency', max_length=4, blank=True)
     number = models.CharField('Number', max_length=7, unique=True, blank=True, primary_key=True)
     typee = models.CharField('Type', max_length=10, blank=True)
@@ -149,13 +149,11 @@ class Account(models.Model):
     
     def save(self, *args, **kwargs):
         if not self.number:
-            self.number = str(random.randint(1000000, 9999999))
-        if not self.agency:
-            self.agency = str(random.randint(1000, 9999))
-        if not self.typee:
+            self.number = random.randint(1000000, 9999999)
+            self.agency = random.randint(1000, 9999)
             self.typee = self.client.typee
-        self.credit_limit = 10000.00 
-        if not self.pk:
+            self.status = True
+            self.credit_limit = 100000.00
             self.saldo = 0.0
 
         self.client.account = self.number
@@ -171,11 +169,12 @@ class Card(models.Model):
     status = models.BooleanField('Status')
     
     def save(self, *args, **kwargs):
-        self.number = random.randint(1000000000000000, 9999999999999999)
-        self.verification_number = random.randint(100, 999)
-        self.create_date = datetime.now()
-        self.expiration_date = datetime.now() + timedelta(days=(365))
-        self.status = True
+        if not self.number:
+            self.number = random.randint(1000000000000000, 9999999999999999)
+            self.verification_number = random.randint(100, 999)
+            self.create_date = datetime.now()
+            self.expiration_date = datetime.now() + timedelta(days=(365))
+            self.status = True
         super(Card, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -184,13 +183,12 @@ class Card(models.Model):
 class Transaction(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='transaction_card')
     date = models.DateField(null=True, blank=True)
-    pay_account = models.CharField('Pay Account', max_length=7, blank=True)
+    pay_account = models.CharField('Pay Account', max_length=7)
     receive_account = models.CharField('Account', max_length=7)
     value = models.DecimalField("Value", max_digits=15, decimal_places=2)
 
     def save(self, *args, **kwargs):
         self.date = datetime.now()
-        self.pay_account = self.card.account.number
         super(Transaction, self).save(*args, **kwargs)
     def __str__(self):
         return f'Transação da conta {self.pay_account} para a conta {self.receive_account} na data {self.date} no valor R$:{self.value}'
@@ -216,6 +214,7 @@ class Investment(models.Model):
 
     def save(self, *args, **kwargs):
         self.date = datetime.now()
+        self.expiration_date = datetime.now() + timedelta(days=(30))
         super(Investment, self).save(*args, **kwargs)
     def __str__(self):
         return f'Investimento da conta {self.account} no valor de R$:{self.value} na data {self.date}'

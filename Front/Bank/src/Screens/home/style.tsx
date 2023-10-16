@@ -10,6 +10,13 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 
+    loading:{
+        flex: 1,
+        backgroundColor: '#000',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
     main:{
         height: '74%',
         backgroundColor: '#F4F4F4',

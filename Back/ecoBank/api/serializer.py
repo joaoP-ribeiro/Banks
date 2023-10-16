@@ -31,81 +31,31 @@ class NaturalPersonSerializer(serializers.ModelSerializer):
         model = NaturalPerson
         fields = '__all__'
 
-
-class TransactionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Transaction
-        fields = '__all__'
-
-
-class CardSerializer(serializers.ModelSerializer):
-    transaction = TransactionSerializer(source='transaction_card', read_only=True, many=True)
-
-    class Meta:
-        model = Card
-        fields = [
-            'account',
-            'number',
-            'expiration_date',
-            'create_date',
-            'status',
-            'verification_number',
-            'transaction'
-        ]
-
-class AccountSerializer(serializers.ModelSerializer):
-    card = CardSerializer(source='account_card', read_only=True)
-
-    class Meta:
-        model = Account
-        fields = [
-            'client',
-            'agency',
-            'number',
-            'typee',
-            'credit_limit',
-            'saldo',
-            'status',
-            'card',
-        ]
-
-
-class ClientSerializer(serializers.ModelSerializer):
-    natural_person = NaturalPersonSerializer(source='client_naturalPerson', read_only=True)
-    legal_person = LegalPersonSerializer(source='client_legalPerson', read_only=True)
-    emails = EmailSerializer(source='client_emails', many=True, read_only=True)
-    phones = PhoneSerializer(source='client_phones', many=True, read_only=True)
-    addresses = AddressSerializer(source='client_addresses', many=True, read_only=True)
-    account = AccountSerializer(source='client_account', read_only=True)
-
-    class Meta:
-        model = CustomUsuario
-        fields = [
-            'identification_number',
-            'typee',
-            'photograph',
-            'natural_person',
-            'legal_person',
-            'emails',
-            'phones',
-            'addresses',
-            'account'
-        ]
-
 class PixSerializer(serializers.ModelSerializer):
-    card = CardSerializer(source='transaction_card', read_only=True)
     class Meta:
         model = Transaction
         fields = [
-            'card',
             'date',
+            'card',
             'pay_account',
             'receive_account',
             'value'
         ]
 
+
+class CardSerializer(serializers.ModelSerializer):
+    transaction = PixSerializer(source='transaction_card', read_only=True, many=True)
+    class Meta:
+        model = Card
+        fields = [
+            'number',
+            'expiration_date',
+            'create_date',
+            'verification_number',
+            'transaction'
+        ]
+
 class LoanSerializer(serializers.ModelSerializer):
-    account = AccountSerializer(source='account_loan', read_only=True)
     class Meta:
         model = Loan
         fields = [
@@ -117,7 +67,6 @@ class LoanSerializer(serializers.ModelSerializer):
         ]
 
 class InvestimentsSerializer(serializers.ModelSerializer):
-    account = AccountSerializer(source='account_investment', read_only=True)
     class Meta:
         model = Investment
         fields = [
@@ -126,3 +75,51 @@ class InvestimentsSerializer(serializers.ModelSerializer):
             'expiration_date',
             'value'
         ]
+
+
+class AccountSerializer(serializers.ModelSerializer):
+    card = CardSerializer(source='account_card', read_only=True, many=True)
+    loan = LoanSerializer(source='account_loan', read_only=True, many=True)
+    investiment = InvestimentsSerializer(source='account_investment', read_only=True, many=True)
+
+    class Meta:
+        model = Account
+        fields = [
+            'agency',
+            'number',
+            'typee',
+            'credit_limit',
+            'saldo',
+            'loan',
+            'investiment',
+            'card',
+        ]
+
+
+
+
+class ClientSerializer(serializers.ModelSerializer):
+    natural_person = NaturalPersonSerializer(source='client_naturalPerson', read_only=True)
+    legal_person = LegalPersonSerializer(source='client_legalPerson', read_only=True)
+    emails = EmailSerializer(source='client_emails', many=True, read_only=True)
+    phones = PhoneSerializer(source='client_phones', many=True, read_only=True)
+    addresses = AddressSerializer(source='client_addresses', many=True, read_only=True)
+    account_view = AccountSerializer(source='client_account', many=True, read_only=True)
+
+    class Meta:
+        model = CustomUsuario
+        fields = [
+            'identification_number',
+            'typee',
+            'photograph',
+            'account',
+            'natural_person',
+            'legal_person',
+            'emails',
+            'phones',
+            'addresses',
+            'account_view'
+        ]
+
+
+
