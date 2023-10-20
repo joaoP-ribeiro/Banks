@@ -17,7 +17,7 @@ export default function Phone({title, onReturn}:Props){
     }
 
     return(
-        <View style={styles.input}>
+        <View style={styles.phone}>
             <Text style={styles.text}>{title}</Text>
             <TextInputMask
                 style={styles.inp}

@@ -37,14 +37,42 @@ class LegalPersonView(viewsets.ModelViewSet):
 class ClientView(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
     queryset = CustomUsuario.objects.all()
-    
+
 class AccountView(viewsets.ModelViewSet):
     serializer_class = AccountSerializer
     queryset = Account.objects.all()
     
+class AccountViewSet(viewsets.ModelViewSet):
+    serializer_class = AccountSerializer
+    queryset = Account.objects.all()
+
+    def get_queryset(self):
+        search = self.request.query_params.get('search')
+        if search:
+            client = Account.objects.filter(
+                Q(client__identification_number__icontains=search)
+            ).distinct()
+            return client
+        else:
+            return Account.objects.all()
+
 class CardView(viewsets.ModelViewSet):
     serializer_class = CardSerializer
     queryset = Card.objects.all()
+    
+class CardViewSet(viewsets.ModelViewSet):
+    serializer_class = CardSerializer
+    queryset = Card.objects.all()
+
+    def get_queryset(self):
+        search = self.request.query_params.get('search')
+        if search:
+            account = Card.objects.filter(
+                Q(account__number__icontains=search)
+            ).distinct()
+            return account
+        else:
+            return Card.objects.all()
 
 class PixView(viewsets.GenericViewSet):
     serializer_class = PixSerializer

@@ -6,6 +6,8 @@ import styles from "./style"
 import Headerr from "../../Components/Header"
 import { useContext } from 'react';
 import  { AuthContext } from '../../context'
+import Top from "../../Components/Top";
+import Card from "../../Components/Card";
 
 
 
@@ -27,15 +29,26 @@ export default function Home(){
                 });
 
                 const response = peopleInfo.data
-                
+                const typee = response.results[0].typee
+                const photograph = response.results[0].photograph
+                const account = response.results[0].account       
+                let resultToDisplay;
 
+                if (typee === 'Normal') {
+                    resultToDisplay = response.results[0].natural_person["name"];
+                } 
+                else{
+                    resultToDisplay = response.results[0].legal_person["fantasy_name"];
+                }
+                authContext.setImg(photograph)
+                authContext.setName(resultToDisplay)
+                authContext.setAccount(account)
                 setIsLoading(false)
-
                 }
-                catch(error) {
+            catch(error) {
                 Alert.alert('Error', String(error))
-                }
             }
+        }
         info()
     }, []);
 
@@ -54,8 +67,11 @@ export default function Home(){
                     </View>
                 )
             }
-           <Headerr name="João Pedro" photo="J"/>
-            <View style={styles.main}></View>
+            <Headerr name={authContext.name} photo={authContext.img}/>
+            <View style={styles.main}>
+                <Top title="Card" marginTop={'8%'}/>
+                <Card/>
+            </View>
         </View>
     )
 }

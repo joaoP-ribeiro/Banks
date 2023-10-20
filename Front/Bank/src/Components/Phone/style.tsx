@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native"
 
 
 const styles = StyleSheet.create({
-        input:{
+        phone:{
             marginTop: '5%',
             width: '100%',
             height: 100,
