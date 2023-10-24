@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUsuarioChangeForm, CustomUsuarioCreateForm, AccountChangeForm, AccountCreateForm, CardChangeForm, CardCreateForm
-from .models import Address, Phone, Email, NaturalPerson, LegalPerson, CustomUsuario, Card, Account, Transaction, Loan, Investment
+from .models import Historic, Address, Phone, Email, NaturalPerson, LegalPerson, CustomUsuario, Card, Account, Transaction, Loan, Investment
 
 class AddressInline(admin.StackedInline):
     model = Address
@@ -43,12 +43,17 @@ class InvestmentInline(admin.StackedInline):
     model = Investment
     extra = 0
 
+class HistoricInline(admin.StackedInline):
+    model = Historic
+    extra = 0
+
+
 @admin.register(CustomUsuario)
 class CustomUsuarioAdmin(UserAdmin):
     add_form = CustomUsuarioCreateForm
     form = CustomUsuarioChangeForm
     model = CustomUsuario
-    list_display = ["identification_number", "photograph", 'typee', "token"]
+    list_display = ["identification_number", "photograph", 'typee', 'name', "token"]
 
     fieldsets = [
         [
@@ -100,7 +105,7 @@ class AccountAdmin(admin.ModelAdmin):
     add_form = AccountCreateForm
     form = AccountChangeForm
     list_display = ['client', 'agency', 'number', 'typee', 'credit_limit', 'saldo', 'status' ]
-    inlines = [CardInline, LoanInline, InvestmentInline]
+    inlines = [CardInline, LoanInline, InvestmentInline, HistoricInline]
     
 @admin.register(Card)
 class CardAdmin(admin.ModelAdmin):
@@ -120,4 +125,8 @@ class LoanAdmin(admin.ModelAdmin):
 @admin.register(Investment)
 class InvestmentAdmin(admin.ModelAdmin):
     list_display = ['account', 'date', 'expiration_date', 'value']
+
+@admin.register(Historic)
+class HistoricAdmin(admin.ModelAdmin):
+    list_display = ['account', 'transaction', 'positive_negative', 'value', 'name', 'number', 'date']
 

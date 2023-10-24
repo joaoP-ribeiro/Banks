@@ -4,9 +4,9 @@ from django.shortcuts import render
 from django.db.models import Q
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
-from .models import CustomUsuario, NaturalPerson, Email, Phone, LegalPerson, Address, Account, Card, Transaction, Loan, Investment
+from .models import CustomUsuario, NaturalPerson, Email, Phone, LegalPerson, Address, Account, Card, Transaction, Loan, Investment, Historic
 
-from .serializer import ClientSerializer, EmailSerializer, PhoneSerializer, AddressSerializer, NaturalPersonSerializer, LegalPersonSerializer, AccountSerializer, CardSerializer, PixSerializer, LoanSerializer, InvestimentsSerializer
+from .serializer import ClientSerializer, HistoricSerializer, EmailSerializer, PhoneSerializer, AddressSerializer, NaturalPersonSerializer, LegalPersonSerializer, AccountSerializer, CardSerializer, PixSerializer, LoanSerializer, InvestimentsSerializer
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -49,12 +49,13 @@ class AccountViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         search = self.request.query_params.get('search')
         if search:
-            client = Account.objects.filter(
-                Q(client__identification_number__icontains=search)
+            number = Account.objects.filter(
+                Q(number__icontains=search)
             ).distinct()
-            return client
+            return number
         else:
             return Account.objects.all()
+
 
 class CardView(viewsets.ModelViewSet):
     serializer_class = CardSerializer
@@ -88,11 +89,30 @@ class PixView(viewsets.GenericViewSet):
         receive_account = get_object_or_404(Account, pk=id_receive_account)
         
         transaction = Transaction.objects.create(
-            card = card,
+            card=card,
             pay_account=pay_account,
             receive_account=receive_account,
             value=value
         )
+
+        historic = Historic.objects.create(
+            account=pay_account,
+            transaction='Pix',
+            positive_negative='-',
+            value=value,
+            name=receive_account.client.name,
+            number=receive_account
+        )
+
+        historic = Historic.objects.create(
+            account=receive_account,
+            transaction='Pix',
+            positive_negative='+',
+            value=value,
+            name=pay_account.client.name,
+            number=pay_account
+        )
+
 
         pay_account.saldo -= value
         receive_account.saldo += value
@@ -112,10 +132,19 @@ class LoanView(viewsets.ModelViewSet):
         account = get_object_or_404(Account, pk=id_account)
 
         loan = Loan.objects.create(
-            account = account,
-            installment_value = installment_value,
-            times = times,
-            value = value
+            account=account,
+            installment_value=installment_value,
+            times=times,
+            value=value
+        )
+
+        historic = Historic.objects.create(
+            account=account,
+            transaction='Loan',
+            positive_negative='+',
+            value=value,
+            name='Bank',
+            number='0000001'
         )
 
         account.saldo += value
@@ -135,8 +164,31 @@ class InvestmentView(viewsets.ModelViewSet):
             value = value
         )
 
+        historic = Historic.objects.create(
+            account=account,
+            transaction='Investiments',
+            positive_negative='-',
+            value=value,
+            name='Bank',
+            number='0000001'
+        )
+
         account.saldo -= value
         account.save()
+
+class HistoricViewSet(viewsets.ModelViewSet):
+    serializer_class = HistoricSerializer
+    queryset = Historic.objects.all()
+
+    def get_queryset(self):
+        search = self.request.query_params.get('search')
+        if search:
+            account = Historic.objects.filter(
+                Q(account__number__icontains=search)
+            ).distinct()
+            return account
+        else:
+            return Historic.objects.all()
 
 class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer

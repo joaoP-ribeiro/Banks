@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUsuario, NaturalPerson, LegalPerson, Email, Phone, Address, Account, Card, Transaction, Loan, Investment
+from .models import Historic, CustomUsuario, NaturalPerson, LegalPerson, Email, Phone, Address, Account, Card, Transaction, Loan, Investment
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -7,6 +7,10 @@ class AddressSerializer(serializers.ModelSerializer):
         model = Address
         fields = '__all__'
 
+class HistoricSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Historic
+        fields = '__all__'
 
 class PhoneSerializer(serializers.ModelSerializer):
     class Meta:

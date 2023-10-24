@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     },
 
     contFistLetter:{
-        height: '100%',
+        height: 60,
         backgroundColor: '#7200E3',
         justifyContent: 'center',
         alignItems: 'center',

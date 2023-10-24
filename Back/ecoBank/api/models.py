@@ -46,6 +46,7 @@ class CustomUsuario(AbstractUser):
     photograph = models.CharField('Photograph', max_length=400, blank=True)
     typee = models.CharField('Type', max_length=30, blank=True)
     account = models.CharField('Account', max_length=7, blank=True)
+    name = models.CharField('Name', max_length=80, blank=True)
     is_staff = models.BooleanField('Membro', default=True)
     token = models.CharField('Token', max_length=255, blank=True, null=True)
 
@@ -81,6 +82,7 @@ class NaturalPerson(models.Model):
     def save(self, *args, **kwargs):
         self.cpf = self.client.identification_number
         self.client.typee = "Normal"
+        self.client.name = self.name
         self.client.photograph = self.name[0]
         self.client.save()
         super(NaturalPerson, self).save(*args, **kwargs)
@@ -101,6 +103,7 @@ class LegalPerson(models.Model):
     def save(self, *args, **kwargs):
         self.cnpj = self.client.identification_number
         self.client.typee = "Legal"
+        self.client.name = self.fantasy_name
         self.client.photograph = self.fantasy_name[0]
         self.client.save()
         super(LegalPerson, self).save(*args, **kwargs)
@@ -142,7 +145,7 @@ class Account(models.Model):
     client = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='client_account')
     agency = models.CharField('Agency', max_length=4, blank=True)
     number = models.CharField('Number', max_length=7, unique=True, blank=True, primary_key=True)
-    typee = models.CharField('Type', max_length=10, blank=True)
+    typee = models.CharField('Type', max_length=10)
     credit_limit = models.DecimalField("CreditLimit", max_digits=15, decimal_places=2, blank=True)
     saldo = models.DecimalField("Saldo", max_digits=15, decimal_places=2, blank=True)
     status = models.BooleanField('Status')
@@ -151,7 +154,6 @@ class Account(models.Model):
         if not self.number:
             self.number = random.randint(1000000, 9999999)
             self.agency = random.randint(1000, 9999)
-            self.typee = self.client.typee
             self.status = True
             self.credit_limit = 100000.00
             self.saldo = 0.0
@@ -218,7 +220,19 @@ class Investment(models.Model):
         super(Investment, self).save(*args, **kwargs)
     def __str__(self):
         return f'Investimento da conta {self.account} no valor de R$:{self.value} na data {self.date}'
-    
+
+class Historic(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_historic')
+    transaction = models.CharField('Transaction', max_length=20)
+    positive_negative = models.CharField('Positeve or Negative', max_length=1)
+    value = models.DecimalField("Value", max_digits=15, decimal_places=2)
+    name = models.CharField('Name', max_length=80)
+    number = models.CharField('Number', max_length=7)
+    date = models.DateField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.date = datetime.now()
+        super(Historic, self).save(*args, **kwargs)
 
 @receiver(post_save, sender=CustomUsuario)
 def create_token_for_user(sender, instance, created, **kwargs):

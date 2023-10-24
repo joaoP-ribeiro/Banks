@@ -6,7 +6,7 @@ from .models import CustomUsuario, Account, Card
 class CustomUsuarioCreateForm(UserCreationForm):
     class Meta:
         model = CustomUsuario
-        fields = ["photograph", 'typee', "token"]
+        fields = ["photograph", 'typee', 'name',  "token"]
         labels = {"username": "identification_number"}
 
     def save(self, commit=True):
@@ -22,7 +22,7 @@ class CustomUsuarioCreateForm(UserCreationForm):
 class CustomUsuarioChangeForm(UserChangeForm):
     class Meta:
         model = CustomUsuario
-        fields = ['photograph', 'typee', 'token']
+        fields = ['photograph', 'typee', 'name', 'token']
 
 
 class AccountCreateForm(UserCreationForm):

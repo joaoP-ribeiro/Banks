@@ -1,11 +1,12 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ClientView, AnddressView, ClientViewSet, PhoneView, EmailView, NaturalPersonView, LegalPersonView, AccountView, AccountViewSet, CardView, CardViewSet, PixView, LoanView, InvestmentView
+from .views import ClientView, HistoricViewSet, AnddressView, ClientViewSet, PhoneView, EmailView, NaturalPersonView, LegalPersonView, AccountView, AccountViewSet, CardView, CardViewSet, PixView, LoanView, InvestmentView
 
 router = DefaultRouter()
 router.register('view/clients', ClientViewSet, basename='view')
 router.register('clients', ClientView, basename='clients')
 router.register('account', AccountView, basename='account')
+router.register('view/historic', HistoricViewSet, basename='historic')
 router.register('view/account', AccountViewSet, basename='account')
 router.register('transaction', PixView, basename='transaction')
 router.register('loan', LoanView, basename='loan')
