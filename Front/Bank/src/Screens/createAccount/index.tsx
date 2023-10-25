@@ -78,11 +78,11 @@ export default function CreateAccount(){
                 <Title title='Type Account' size={30} textColor='#000' marginTop={'5%'}/>
                 <View style={styles.navButtons}>
                     <View style={styles.navB}>
-                        <Buttom title='Normal' icon='' size={20} color={selectedButton === 'Normal' ? '#FFBD15' : '#EBEBEB'} textColor='#000' width={125} heigth={40} marginTop={0} border={32} just={'center'} aling={'center'} function={() => {
+                        <Buttom title='Normal' icon='' size={20} color={selectedButton === 'Normal' ? '#FFBD15' : '#EBEBEB'} textColor='#000' width={125} heigth={40} marginTop={0} border={32} just={'center'} aling={'center'} padding={''} function={() => {
                     setSelectedButton('Normal')}}/>
                     </View>
                     <View style={styles.navB}>
-                        <Buttom title='Legal' icon='' size={20} color={selectedButton === 'Legal' ? '#FFBD15' : '#EBEBEB'} textColor='#000' width={125} heigth={40} marginTop={0} border={32} just={'center'} aling={'center'} function={() => {
+                        <Buttom title='Legal' icon='' size={20} color={selectedButton === 'Legal' ? '#FFBD15' : '#EBEBEB'} textColor='#000' width={125} heigth={40} marginTop={0} border={32} just={'center'} aling={'center'} padding={''} function={() => {
                     setSelectedButton('Legal')}}/>
                     </View>
                 </View>
@@ -102,7 +102,7 @@ export default function CreateAccount(){
                  
                     <View style={styles.buttom}>
                         <View style={styles.bt}>
-                            <Buttom title='' icon='arrow-forward-outline' size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={80} border={90} just={'center'} aling={'center'} function={TypeAccount}/>
+                            <Buttom title='' icon='arrow-forward-outline' size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={80} border={90} just={'center'} aling={'center'} function={TypeAccount} padding={''}/>
                         </View>
                     </View>
                 </ScrollView>

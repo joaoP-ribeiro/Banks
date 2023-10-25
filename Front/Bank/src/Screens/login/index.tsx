@@ -62,12 +62,12 @@ export default function Login(){
                     <Input title='Passoword' marginTop={'7%'} width={'80%'} type={'default'} size={20} limit={20} passowrd={true} onReturn={(newValue: string) => {
                     setValuePass(newValue)}}/>
                     <View style={styles.pdButtom}>
-                        <Buttom title='Forgot my password' icon='' size={20} color='transparent' textColor='#AFAFAF' width={'100%'} heigth={30} marginTop={"5%"} border={0} just={''} aling={''} function={home}/>
-                        <Buttom title='Create account' icon='' size={20} color='transparent' textColor='#AFAFAF' width={'100%'} heigth={30} marginTop={"5%"} border={0} just={''} aling={''} function={createAccount}/>
+                        <Buttom title='Forgot my password' icon='' size={20} color='transparent' textColor='#AFAFAF' width={'100%'} heigth={30} marginTop={"5%"} border={0} just={''} aling={''} function={home} padding={''}/>
+                        <Buttom title='Create account' icon='' size={20} color='transparent' textColor='#AFAFAF' width={'100%'} heigth={30} marginTop={"5%"} border={0} just={''} aling={''} function={createAccount} padding={''}/>
                     </View>
                     <View style={styles.buttom}>
                         <View style={styles.bt}>
-                            <Buttom title='' icon='arrow-forward-outline' size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={140} border={90} just={'center'} aling={'center'} function={home}/>
+                            <Buttom title='' icon='arrow-forward-outline' size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={140} border={90} just={'center'} aling={'center'} function={home} padding={''}/>
                         </View>
                     </View>
                 </ScrollView> 

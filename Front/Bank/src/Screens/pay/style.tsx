@@ -26,11 +26,10 @@ const styles = StyleSheet.create({
         height: '74%',
         backgroundColor: '#F4F4F4',
         borderTopRightRadius: 60,
-        borderTopLeftRadius: 60,
-        
+        borderTopLeftRadius: 60, 
     },
 
-    infos:{
+    buttons:{
         flex:1,
         width: '100%',
         justifyContent: 'center',

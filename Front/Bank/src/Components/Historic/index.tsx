@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState } from "react";
-import { View, ActivityIndicator} from "react-native";
+import { View, Text, ActivityIndicator} from "react-native";
 import axios from "axios";
-import Row from "../Row";
+import TransactionsHistoric from "../TransactionsHistoric";
 import { AuthContext } from "../../context";
 import styles from "./style";
 import { ScrollView } from "react-native-gesture-handler";
@@ -29,7 +29,7 @@ export default function Historic() {
         const response = historic.data
         
         if (response.results.length === 0) {
-          setLoading(true);
+          setLoading(true)
         } else {
           setLoading(false);
           setHistoric(response["results"])
@@ -38,9 +38,16 @@ export default function Historic() {
 
       } 
     }
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 10000);
 
     if (loading) {
-      fetchData()
+      fetchData();
+    }
+
+    return () => {
+      clearTimeout(timeout)
     }
   }, [authAccount, authToken, authContext, loading])
 
@@ -50,13 +57,16 @@ export default function Historic() {
         <ActivityIndicator size="large" color="#7200E3" />
       ) : (
         <View style={styles.cards}>
+        {historic.length > 0 ? (
           <ScrollView>
             {historic.slice(0, 5).map((transaction, index) => (
-             <Row  key={index} transaction={transaction}/>
-            )
+              <TransactionsHistoric key={index} transaction={transaction} />
+            ))}
+          </ScrollView>
+        ) : (
+          <Text>No transaction history available</Text>
         )}
-        </ScrollView>
-        </View>
+      </View>
       )}
     </View>
   );

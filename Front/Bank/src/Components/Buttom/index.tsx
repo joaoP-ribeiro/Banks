@@ -14,12 +14,13 @@ interface Props{
     border: number
     just: any
     aling: any
+    padding: any | null
 
     function: () => void
 }
 
 
-export default function Buttom({title, icon, size, textColor, color, width, heigth, marginTop, border, just, aling, ...rest}:Props){
+export default function Buttom({title, icon, size, textColor, color, padding, width, heigth, marginTop, border, just, aling, ...rest}:Props){
     
     const stileProps : Props ={
         textColor: textColor,
@@ -33,6 +34,7 @@ export default function Buttom({title, icon, size, textColor, color, width, heig
         aling: aling,
         title: "" ,
         icon: "",
+        padding: padding,
         function: function (): void {
             throw new Error("Function not implemented.");
         }

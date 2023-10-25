@@ -49,7 +49,7 @@ export default function Address(){
                 }
             });
             
-            navigation.navigate('home')
+            navigation.navigate('account')
         }
         catch(error) {
            Alert.alert('Error', String(error))
@@ -81,7 +81,7 @@ export default function Address(){
                     }}/>
                     <View style={styles.buttom}>
                         <View style={styles.bt}>
-                            <Buttom title='' icon='arrow-forward-outline' size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={0} border={90} just={'center'} aling={'center'} function={address}/>
+                            <Buttom title='' icon='arrow-forward-outline' padding={''} size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={0} border={90} just={'center'} aling={'center'} function={address}/>
                         </View>
                     </View>
                 </ScrollView> 

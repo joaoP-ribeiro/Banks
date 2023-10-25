@@ -2,29 +2,25 @@ import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 import Title from "../../Components/Title";
 import styles from "./style";
-import Headerr from "../../Components/Header";
 import Top from "../../Components/Top";
 import Card from "../../Components/Card";
-import Historic from "../../Components/Historic";
-import { ScrollView } from "react-native-gesture-handler";
+import Input from "../../Components/Input"
 
-export default function Home() {
+export default function Pix() {
+  const [keyPix, setKeyPix] = useState('')
 
   return (
     <View style={styles.page}>
       <View style={styles.content}>
           <Title title="Bank" size={20} textColor="#FFFFFF" marginTop={'7%'} />
       </View>
-      <Headerr />
       <View style={styles.main}>
-        <ScrollView style={styles.scrol}>
-          <View style={styles.infos}>
-            <Top title="Card" marginTop={'8%'} />
-            <Card/>
-            <Top title="Historic" marginTop={'5%'} />
-            <Historic />
-          </View>
-        </ScrollView>
+        <Top title="" marginTop={'0%'} />
+        <Card/>
+        <Input title='Pix/Key' marginTop={'7%'} width={'80%'} type={'numeric'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
+            setKeyPix(newValue)
+        }}/>
+        
       </View>
     </View>
   );

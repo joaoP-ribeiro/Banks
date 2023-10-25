@@ -12,15 +12,17 @@ interface Props{
     border: number
     just: any
     aling: any
+    padding: any
 }
 
-const styles = ({size, textColor, color, width, heigth, marginTop, border, just, aling}:Props) => {
+const styles = ({size, textColor, color, width, heigth, marginTop, border, just, aling, padding}:Props) => {
 
 return StyleSheet.create({
     buttom:{
         marginTop: marginTop,
         height: heigth,
         width: width,
+        padding: padding,
         backgroundColor: color,
         borderRadius: border, 
         justifyContent: just,
@@ -29,7 +31,8 @@ return StyleSheet.create({
 
     text:{
         fontSize: size,
-        color: textColor
+        color: textColor,
+        fontWeight: 'bold'
     }
 
 })   

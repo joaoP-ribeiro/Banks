@@ -56,7 +56,9 @@ class CardSerializer(serializers.ModelSerializer):
             'expiration_date',
             'create_date',
             'verification_number',
-            'transaction'
+            'transaction',
+            'account',
+            'status'
         ]
 
 class LoanSerializer(serializers.ModelSerializer):
@@ -97,6 +99,7 @@ class AccountSerializer(serializers.ModelSerializer):
             'loan',
             'investiment',
             'card',
+            'client'
         ]
 
 

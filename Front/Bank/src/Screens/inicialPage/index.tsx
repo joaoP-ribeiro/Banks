@@ -23,7 +23,7 @@ export default function InicialPage(){
                     <View style={styles.buttom}>
                         <View style={styles.content}></View>
                         <View style={styles.bt}>
-                            <Buttom title='Start' icon='' size={25} color='transparent' textColor='#FFFFFF' width={70} heigth={50} marginTop={0} border={0} just={''} aling={''} function={Login}/>
+                            <Buttom title='Start' icon='' size={25} color='transparent' textColor='#FFFFFF' width={70} heigth={50} marginTop={0} border={0} just={''} aling={''} function={Login} padding={''}/>
                         </View>
                     </View>
                 </View>

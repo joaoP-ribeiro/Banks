@@ -81,7 +81,7 @@ export default function Contact(){
                     }}/>
                     <View style={styles.buttom}>
                         <View style={styles.bt}>
-                            <Buttom title='' icon='arrow-forward-outline' size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={240} border={90} just={'center'} aling={'center'} function={contact}/>
+                            <Buttom title='' icon='arrow-forward-outline' padding={''} size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={240} border={90} just={'center'} aling={'center'} function={contact}/>
                         </View>
                     </View>
                 </ScrollView> 

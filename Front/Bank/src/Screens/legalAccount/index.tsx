@@ -10,7 +10,7 @@ import Input from "../../Components/Input";
 
 export default function LegalAccount(){
     const route = useRoute();
-    const { valueIdentificationNumber } = route.params as { valueIdentificationNumber: string }
+   
 
     const [value, setValue] = useState("")
     const navigation = useNavigation();
@@ -42,7 +42,7 @@ export default function LegalAccount(){
                     <Input title='Phone' marginTop={'5%'} width={'80%'} type={'email-address'} size={20} limit={14} passowrd={false} onReturn={returnValue}/>
                     <View style={styles.buttom}>
                         <View style={styles.bt}>
-                            <Buttom title='' icon='arrow-forward-outline' size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={30} border={90} just={'center'} aling={'center'} function={address}/>
+                            <Buttom title='' icon='arrow-forward-outline' size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={30} border={90} just={'center'} aling={'center'} function={address} padding={''}/>
                         </View>
                     </View>
                 </ScrollView> 

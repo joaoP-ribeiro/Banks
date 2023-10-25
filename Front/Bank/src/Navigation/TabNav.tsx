@@ -4,6 +4,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { StyleSheet } from 'react-native'
 import Home from '../Screens/home'
 import FeatherIcon from 'react-native-vector-icons/Feather'
+import Pix from '../Screens/pix'
+import Pay from '../Screens/pay'
 
 
 const Tab = createBottomTabNavigator()
@@ -16,8 +18,8 @@ export default function TabNav() {
           let iconName;
           if (route.name === "Home") {
             iconName = focused ? "home" : "home"
-          } else if (route.name === "User") {
-            iconName = focused ? "user" : "user"
+          } else if (route.name === "Pay") {
+            iconName = focused ? "briefcase" : "briefcase"
           }
 
           return <FeatherIcon name={iconName} size={size} color={color} />
@@ -26,7 +28,8 @@ export default function TabNav() {
         tabBarInactiveTintColor: "#000",
       })}
     >
-      <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />
+      <Tab.Screen name="Home" component={Home} options={{ headerShown: false, tabBarLabel: "Home" }} />
+      <Tab.Screen name="Pay" component={Pay} options={{ headerShown: false, tabBarLabel: "Pay" }} />
     </Tab.Navigator>
   )
 }

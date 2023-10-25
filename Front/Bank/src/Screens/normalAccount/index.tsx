@@ -72,7 +72,7 @@ export default function NormalAccount(){
                     }}/>
                     <View style={styles.buttom}>
                         <View style={styles.bt}>
-                            <Buttom title='' icon='arrow-forward-outline' size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={140} border={90} just={'center'} aling={'center'} function={naturalPerson}/>
+                            <Buttom title='' icon='arrow-forward-outline' size={40} color='#1FF2FF' textColor='#000' width={80} heigth={80} marginTop={140} border={90} just={'center'} aling={'center'} function={naturalPerson} padding={''}/>
                         </View>
                     </View>
                 </ScrollView> 

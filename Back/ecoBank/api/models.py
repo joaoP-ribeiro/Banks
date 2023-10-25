@@ -174,8 +174,8 @@ class Card(models.Model):
         if not self.number:
             self.number = random.randint(1000000000000000, 9999999999999999)
             self.verification_number = random.randint(100, 999)
-            self.create_date = datetime.now()
-            self.expiration_date = datetime.now() + timedelta(days=(365))
+            self.create_date = datetime.now().date()
+            self.expiration_date = (datetime.now() + timedelta(days=(365))).date()
             self.status = True
         super(Card, self).save(*args, **kwargs)
 
@@ -203,7 +203,7 @@ class Loan(models.Model):
     value = models.DecimalField("Value", max_digits=15, decimal_places=2)
 
     def save(self, *args, **kwargs):
-        self.date = datetime.now()
+        self.date = datetime.now().date()
         super(Loan, self).save(*args, **kwargs)
     def __str__(self):
         return f'Imprestimo da conta {self.account} no valor de R$:{self.value} na data {self.date}'
@@ -215,8 +215,8 @@ class Investment(models.Model):
     value = models.DecimalField("Value", max_digits=15, decimal_places=2)
 
     def save(self, *args, **kwargs):
-        self.date = datetime.now()
-        self.expiration_date = datetime.now() + timedelta(days=(30))
+        self.date = datetime.now().date()
+        self.expiration_date = (datetime.now() + timedelta(days=(30))).date()
         super(Investment, self).save(*args, **kwargs)
     def __str__(self):
         return f'Investimento da conta {self.account} no valor de R$:{self.value} na data {self.date}'

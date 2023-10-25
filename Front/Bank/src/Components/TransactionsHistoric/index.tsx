@@ -13,7 +13,7 @@ type Historic = {
 }
 
 
-export default function Row({transaction}: {transaction: Historic}) {
+export default function TransactionsHistoric({transaction}: {transaction: Historic}) {
 
   return (
     <View style={styles.row}>

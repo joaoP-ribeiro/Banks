@@ -17,24 +17,12 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    scrol:{
-        flex: 1,
-        width: '100%',
-    },
-
     main:{
-        height: '74%',
+        height: '87%',
         backgroundColor: '#F4F4F4',
         borderTopRightRadius: 60,
         borderTopLeftRadius: 60,
         
-    },
-
-    infos:{
-        flex:1,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center'
     },
    
 })
