@@ -2,6 +2,7 @@ import {View, ScrollView, Alert} from "react-native"
 import { useNavigation } from '@react-navigation/native';
 import {useState} from "react"
 import axios from "axios";
+import axiosInstance from "../../service/api"
 import * as yup from 'yup'
 import styles from "./style"
 import Buttom from "../../Components/Buttom"
@@ -32,13 +33,13 @@ export default function CreateAccount(){
                 
                 await schema.validate({ identification_number: valueIdentificationNumber, password: valuePass, confirmPassword: valuePassConf}, { abortEarly: false })
             
-                const create = await axios.post('http://10.109.71.7:8000/bank/api/v1/auth/users/', {
+                const create = await axiosInstance.post('/bank/api/v1/auth/users/', {
                     identification_number: valueIdentificationNumber,
                     password: valuePass,
                 })
             
                 try {
-                    const login = await axios.post('http://10.109.71.7:8000/bank/api/v1/auth/token/login/', {
+                    const login = await axiosInstance.post('/bank/api/v1/auth/token/login/', {
                         identification_number: valueIdentificationNumber,
                         password: valuePass,
                     });

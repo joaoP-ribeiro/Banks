@@ -7,6 +7,7 @@ import Buttom from "../../Components/Buttom"
 import Title from "../../Components/Title";
 import Input from "../../Components/Input";
 import axios from "axios";
+import axiosInstance from "../../service/api";
 import { useContext } from 'react';
 import  { AuthContext } from '../../context'
 
@@ -36,7 +37,7 @@ export default function Address(){
 
             await schema.validate({ cep: valueCEP, city: valueCity, street: valueCEP, neighborhood: valueCity, uf: valueCEP}, { abortEarly: false })
 
-            const address = await axios.post('http://10.109.71.7:8000/bank/api/v1/query/address/', {
+            const address = await axiosInstance.post('/bank/api/v1/query/address/', {
                 cep: valueCEP,
                 city: valueCity,
                 street: valueStreet,

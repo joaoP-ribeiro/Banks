@@ -9,6 +9,7 @@ import Buttom from "../../Components/Buttom"
 import Title from "../../Components/Title";
 import Input from "../../Components/Input";
 import Phone from "../../Components/Phone";
+import axiosInstance from "../../service/api";
 import { useContext } from 'react';
 import  { AuthContext } from '../../context'
 
@@ -40,7 +41,7 @@ export default function Contact(){
 
             await schema.validate({ email: valueEmail, phone: valuePhone,}, { abortEarly: false })
 
-            const email = await axios.post('http://10.109.71.7:8000/bank/api/v1/query/email/', {
+            const email = await axiosInstance.post('/bank/api/v1/query/email/', {
                 email: modifiedEmail,
                 client: authIdentificationNumber
             }, {
@@ -48,7 +49,7 @@ export default function Contact(){
                     'Authorization': `Token ${authToken}`
                 }
             });
-            const phone = await axios.post('http://10.109.71.7:8000/bank/api/v1/query/phone/', {
+            const phone = await axiosInstance.post('/bank/api/v1/query/phone/', {
                 phone: cleanedPhoneNumber,
                 prefix_number: valuePhone[1]+valuePhone[2],
                 area_code: "55",

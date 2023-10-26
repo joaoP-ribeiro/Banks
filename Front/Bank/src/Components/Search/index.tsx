@@ -1,25 +1,32 @@
 import { useEffect, useContext, useState } from "react";
 import { View, Text, ActivityIndicator} from "react-native";
 import axios from "axios";
-import TransactionsHistoric from "../TransactionsHistoric";
+import TransactionsSearch from "../TransactionsSearch";
+import UserSearch from "../UsersSearch";
 import { AuthContext } from "../../context";
 import styles from "./style";
+import axiosInstance from "../../service/api";
 import { ScrollView } from "react-native-gesture-handler";
 
+interface Props{
+  baseUrl: string
+  search: string | null
+  useRow: number
+}
 
-
-export default function Historic() {
+export default function Search({baseUrl, search, useRow}: Props) {
   const authContext = useContext(AuthContext)
   const authToken = authContext.authToken
-  const authAccount = authContext.account
+  
   const [loading, setLoading] = useState(true)
   const [historic, setHistoric] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const historic = await axios.get(
-          `http://10.109.71.7:8000/bank/api/v1/query/view/historic?search=${authAccount}`,
+        const fullUrl = baseUrl + search
+        const historic = await 
+          axiosInstance.get(fullUrl,
           {
             headers: {
               Authorization: `Token ${authToken}`,
@@ -39,17 +46,15 @@ export default function Historic() {
       } 
     }
     const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 10000);
-
-    if (loading) {
-      fetchData();
-    }
+      if (search) {
+        fetchData();
+      }
+    }, 1000); 
 
     return () => {
-      clearTimeout(timeout)
-    }
-  }, [authAccount, authToken, authContext, loading])
+      clearTimeout(timeout);
+    };
+  }, [search])
 
   return (
     <View style={styles.historic}>
@@ -60,7 +65,10 @@ export default function Historic() {
         {historic.length > 0 ? (
           <ScrollView>
             {historic.slice(0, 5).map((transaction, index) => (
-              <TransactionsHistoric key={index} transaction={transaction} />
+              useRow === 1 ?
+              (<TransactionsSearch key={index} transaction={transaction} />)
+              :
+              (<UserSearch key={index} transaction={transaction} />)
             ))}
           </ScrollView>
         ) : (

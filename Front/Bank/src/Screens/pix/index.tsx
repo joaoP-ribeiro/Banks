@@ -5,6 +5,7 @@ import styles from "./style";
 import Top from "../../Components/Top";
 import Card from "../../Components/Card";
 import Input from "../../Components/Input"
+import Search from "../../Components/Search";
 
 export default function Pix() {
   const [keyPix, setKeyPix] = useState('')
@@ -20,6 +21,8 @@ export default function Pix() {
         <Input title='Pix/Key' marginTop={'7%'} width={'80%'} type={'numeric'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
             setKeyPix(newValue)
         }}/>
+        <Top title="Users" marginTop={'5%'} />
+        <Search baseUrl="bank/api/v1/query/view/clients?search=" search={keyPix} useRow={2} />
         
       </View>
     </View>

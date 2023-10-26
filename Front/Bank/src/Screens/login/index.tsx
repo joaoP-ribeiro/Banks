@@ -7,6 +7,7 @@ import styles from "./style"
 import Buttom from "../../Components/Buttom"
 import Title from "../../Components/Title";
 import Input from "../../Components/Input";
+import axiosInstance from "../../service/api";
 import { useContext } from 'react';
 import { AuthContext } from "../../context";
 
@@ -27,7 +28,7 @@ export default function Login(){
         try{
             await schema.validate({ number: valueNumber, password: valuePass }, { abortEarly: false });
             
-            const loginUrl = await axios.post("http://10.109.71.7:8000/bank/api/v1/auth/token/login/", {
+            const loginUrl = await axiosInstance.post('/bank/api/v1/auth/token/login/', {
                 identification_number: valueNumber,
                 password: valuePass,
             })

@@ -2,7 +2,7 @@ import {View, ScrollView, Alert} from "react-native"
 import { useNavigation } from '@react-navigation/native';
 import {useState} from "react"
 import styles from "./style"
-import * as yup from 'yup'
+import axiosInstance from "../../service/api";
 import Buttom from "../../Components/Buttom"
 import Title from "../../Components/Title";
 import Input from "../../Components/Input";
@@ -21,7 +21,7 @@ export default function Account(){
     const createAccount = async () =>{
         
         try{
-            const account = await axios.post('http://10.109.71.7:8000/bank/api/v1/query/view/account/', {
+            const account = await axiosInstance.post('/bank/api/v1/query/view/account/', {
                 typee: selectedButton,
                 status: 'true',
                 client: authIdentificationNumber
@@ -33,7 +33,7 @@ export default function Account(){
             const response = account.data
             const accountNumber = response['number']
             try{
-                const card = await axios.post('http://10.109.71.7:8000/bank/api/v1/query/card/', {
+                const card = await axiosInstance.post('/bank/api/v1/query/card/', {
                 status: 'true',
                 account: accountNumber
                 }, {

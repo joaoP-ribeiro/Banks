@@ -80,17 +80,13 @@ class PixView(viewsets.GenericViewSet):
     queryset = Transaction.objects.all()
     
     def create(self, request):
-        id_pay_account = request.data.get('pay_account')
-        id_card = request.data.get('card') 
+        id_pay_account = request.data.get('account')
         id_receive_account = request.data.get('receive_account')
         value = request.data.get('value')
         pay_account = get_object_or_404(Account, pk=id_pay_account)
-        card = get_object_or_404(Card, pk=id_card)
         receive_account = get_object_or_404(Account, pk=id_receive_account)
         
         transaction = Transaction.objects.create(
-            card=card,
-            pay_account=pay_account,
             receive_account=receive_account,
             value=value
         )

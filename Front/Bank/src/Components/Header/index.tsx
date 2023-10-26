@@ -2,6 +2,7 @@ import {View, Text, TouchableOpacity} from "react-native"
 import FeatherIcon from 'react-native-vector-icons/Feather'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
+import axiosInstance from "../../service/api";
 import { useContext } from 'react';
 import  { AuthContext } from '../../context'
 import styles from "./style"
@@ -17,7 +18,7 @@ export default function Headerr(){
     useEffect(() => {
         const info = async () =>{
             try{
-                const peopleInfo = await axios.get(`http://10.109.71.7:8000/bank/api/v1/query/view/clients?search=${authIdentificationNumber}`, {
+                const peopleInfo = await axiosInstance.get(`/bank/api/v1/query/view/clients?search=${authIdentificationNumber}`, {
                     headers: {
                         'Authorization': `Token ${authToken}`
                     }

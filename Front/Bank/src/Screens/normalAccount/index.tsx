@@ -10,6 +10,7 @@ import Title from "../../Components/Title";
 import Input from "../../Components/Input";
 import Phone from "../../Components/Phone";
 import DateInp from "../../Components/Date";
+import axiosInstance from "../../service/api";
 import { useContext } from 'react';
 import { AuthContext } from "../../context";
 
@@ -34,7 +35,7 @@ export default function NormalAccount(){
 
             await schema.validate({ name: valueName, birthdate: valueBirthdate, rg: valueRG}, { abortEarly: false })
             
-            const naturalCreate = await axios.post('http://10.109.71.7:8000/bank/api/v1/query/natural/person/', {
+            const naturalCreate = await axiosInstance.post('/bank/api/v1/query/natural/person/', {
                 name: valueName,
                 birthdate: valueBirthdate,
                 cpf: "",

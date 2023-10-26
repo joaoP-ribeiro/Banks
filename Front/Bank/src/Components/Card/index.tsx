@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import { View, ImageBackground , ActivityIndicator, Text} from "react-native";
 import axios from "axios";
+import axiosInstance from "../../service/api";
 import { AuthContext } from "../../context";
 import styles from "./style";
 import Balance from "../Balance";
@@ -19,8 +20,8 @@ export default function Card() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const card = await axios.get(
-          `http://10.109.71.7:8000/bank/api/v1/query/view/card/?search=${authAccount}`,
+        console.log(authAccount)
+        const card = await axiosInstance.get(`/bank/api/v1/query/view/card/?search=${authAccount}`,
           {
             headers: {
               Authorization: `Token ${authToken}`,

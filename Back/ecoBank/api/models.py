@@ -183,9 +183,8 @@ class Card(models.Model):
         return f'Cartão {self.number} da Conta {self.account}'
 
 class Transaction(models.Model):
-    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='transaction_card')
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='transaction_account')
     date = models.DateField(null=True, blank=True)
-    pay_account = models.CharField('Pay Account', max_length=7)
     receive_account = models.CharField('Account', max_length=7)
     value = models.DecimalField("Value", max_digits=15, decimal_places=2)
 

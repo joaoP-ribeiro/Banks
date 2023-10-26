@@ -105,18 +105,17 @@ class AccountAdmin(admin.ModelAdmin):
     add_form = AccountCreateForm
     form = AccountChangeForm
     list_display = ['client', 'agency', 'number', 'typee', 'credit_limit', 'saldo', 'status' ]
-    inlines = [CardInline, LoanInline, InvestmentInline, HistoricInline]
+    inlines = [CardInline, LoanInline, InvestmentInline, TransactionInline, HistoricInline]
     
 @admin.register(Card)
 class CardAdmin(admin.ModelAdmin):
     add_form = CardCreateForm
     form = CardChangeForm
     list_display = ['account', 'number', 'create_date', 'expiration_date', 'verification_number', 'status']
-    inlines = [TransactionInline]
     
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ['card',  'date', 'pay_account', 'receive_account', 'value']
+    list_display = ['account', 'date', 'receive_account', 'value']
 
 @admin.register(Loan)
 class LoanAdmin(admin.ModelAdmin):

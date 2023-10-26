@@ -40,15 +40,13 @@ class PixSerializer(serializers.ModelSerializer):
         model = Transaction
         fields = [
             'date',
-            'card',
-            'pay_account',
+            'account',
             'receive_account',
             'value'
         ]
 
 
 class CardSerializer(serializers.ModelSerializer):
-    transaction = PixSerializer(source='transaction_card', read_only=True, many=True)
     class Meta:
         model = Card
         fields = [
@@ -56,7 +54,6 @@ class CardSerializer(serializers.ModelSerializer):
             'expiration_date',
             'create_date',
             'verification_number',
-            'transaction',
             'account',
             'status'
         ]
@@ -87,6 +84,7 @@ class AccountSerializer(serializers.ModelSerializer):
     card = CardSerializer(source='account_card', read_only=True, many=True)
     loan = LoanSerializer(source='account_loan', read_only=True, many=True)
     investiment = InvestimentsSerializer(source='account_investment', read_only=True, many=True)
+    transaction = PixSerializer(source='transaction_account', read_only=True, many=True)
 
     class Meta:
         model = Account
@@ -98,6 +96,7 @@ class AccountSerializer(serializers.ModelSerializer):
             'saldo',
             'loan',
             'investiment',
+            'transaction',
             'card',
             'client'
         ]
@@ -119,6 +118,7 @@ class ClientSerializer(serializers.ModelSerializer):
             'identification_number',
             'typee',
             'photograph',
+            'name',
             'account',
             'natural_person',
             'legal_person',
