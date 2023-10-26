@@ -12,10 +12,12 @@ import Contact from '../Screens/contact';
 import TabNav from './TabNav';
 import Account from '../Screens/account';
 import Pix from '../Screens/pix';
+import PixPay from '../Screens/pixPay';
 
 const Stack = createStackNavigator()
 
 export default function NavScreens() {
+  
     return (
       <NavigationContainer>
         <AuthProvider>
@@ -31,6 +33,7 @@ export default function NavScreens() {
             <Stack.Screen name="contact" component={Contact} options={{headerShown: false}}/>
             <Stack.Screen name="home" component={TabNav} options={{headerShown: false}}/>
             <Stack.Screen name="pix" component={Pix} options={{headerShown: false}}/>
+            <Stack.Screen name="pixPay" component={PixPay} options={{headerShown: false}}/>
           </Stack.Navigator>
         </AuthProvider>
       </NavigationContainer>

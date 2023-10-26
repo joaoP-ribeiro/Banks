@@ -12,9 +12,13 @@ const styles = StyleSheet.create({
 
 
     container_name:{
-        width: '80%',
+        width: '50%',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+
+    space: {
+        width: '20%'
     },
 
 

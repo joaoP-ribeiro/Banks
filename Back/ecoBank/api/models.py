@@ -192,7 +192,7 @@ class Transaction(models.Model):
         self.date = datetime.now()
         super(Transaction, self).save(*args, **kwargs)
     def __str__(self):
-        return f'Transação da conta {self.pay_account} para a conta {self.receive_account} na data {self.date} no valor R$:{self.value}'
+        return f'Transação da conta {self.account} para a conta {self.receive_account} na data {self.date} no valor R$:{self.value}'
     
 class Loan(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_loan')

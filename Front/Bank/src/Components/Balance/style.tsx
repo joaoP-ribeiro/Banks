@@ -1,16 +1,22 @@
 import { StyleSheet } from "react-native";
+interface Props{
+    textColor: string
+}
 
-const styles = StyleSheet.create({
-    balance: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+const styles = ({textColor}:Props) => {
 
-    text:{
-        fontSize: 30,
-        color: '#F4F4F4',
-        fontWeight: 'bold'
-    },
-});
+    return StyleSheet.create({
+        balance: {
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+
+        text:{
+            fontSize: 30,
+            color: textColor,
+            fontWeight: 'bold'
+        },
+    })
+}
 
 export default styles;

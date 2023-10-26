@@ -8,6 +8,7 @@ type AuthContextData = {
   img: string | null
   account: string | null
   card: string | null
+  balance: number | null
 
   setAuthToken: (token: string | null) => void
   setValueIdentificationNumber: (identificationNumber: string | null) => void
@@ -15,6 +16,7 @@ type AuthContextData = {
   setImg: (image: string | null) => void
   setAccount: (account_number: string | null) => void
   setCard: (card_number: string | null) => void
+  setBalance: (balance: number | null) => void
 };
 
 type Children = {
@@ -28,6 +30,7 @@ export const AuthContext = createContext<AuthContextData>({
   img: null,
   account: null,
   card: null,
+  balance: null,
 
   setAuthToken: () => {},
   setValueIdentificationNumber: () => {},
@@ -35,6 +38,7 @@ export const AuthContext = createContext<AuthContextData>({
   setImg: () => {},
   setAccount: () => {},
   setCard: () => {},
+  setBalance: () => {}
 });
 
 export const AuthProvider = ({ children }: Children) => {
@@ -44,6 +48,7 @@ export const AuthProvider = ({ children }: Children) => {
   const [img, setImg] = useState<string | null>(null)
   const [account, setAccount] = useState<string | null>(null)
   const [card, setCard] = useState<string | null>(null)
+  const [balance, setBalance] = useState<number | null>(null)
 
   useEffect(() => {
     const fetchAuthToken = async () => {
@@ -76,7 +81,7 @@ export const AuthProvider = ({ children }: Children) => {
   };
 
   return (
-    <AuthContext.Provider value={{ authToken, valueIdentificationNumber, name, img, account, card, setAuthToken: saveAuthToken, setValueIdentificationNumber, setName, setImg, setAccount, setCard }}>
+    <AuthContext.Provider value={{ authToken, valueIdentificationNumber, name, img, account, card, balance, setAuthToken: saveAuthToken, setValueIdentificationNumber, setName, setImg, setAccount, setCard, setBalance}}>
       {children}
     </AuthContext.Provider>
   );

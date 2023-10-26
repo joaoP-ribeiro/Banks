@@ -1,21 +1,31 @@
 import React, { useEffect, useContext, useState } from "react";
-import { View, ActivityIndicator, Text} from "react-native";
-import axios from "axios";
+import { View, ActivityIndicator, Text } from "react-native";
 import axiosInstance from "../../service/api";
 import { AuthContext } from "../../context";
 import styles from "./style";
 
-export default function Balance() {
-  const authContext = useContext(AuthContext)
-  const authToken = authContext.authToken
-  const authAccount = authContext.account
-  const [saldo, setSaldo] = useState<number | null>(null)
+interface Props {
+  textColor: string,
+}
+
+export default function Balance({ textColor }: Props) {
+  const authContext = useContext(AuthContext);
+  const authToken = authContext.authToken;
+  const authAccount = authContext.account;
+  const authBalance = authContext.balance;
+  const [saldo, setSaldo] = useState<number | null>(null);
+
+  const stileProps: Props = {
+    textColor: textColor
+  }
+
+  const stylesP = styles(stileProps);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const balance = await 
-          axiosInstance.get(`/bank/api/v1/query/view/account?search=${authAccount}`,
+        const balance = await axiosInstance.get(
+          `/bank/api/v1/query/view/account?search=${authAccount}`,
           {
             headers: {
               Authorization: `Token ${authToken}`,
@@ -24,29 +34,29 @@ export default function Balance() {
         );
         const response = balance.data;
         const saldo = response.results[0]["saldo"];
+        authContext.setBalance(saldo);
         setSaldo(parseFloat(saldo));
       } catch (error) {
-       
       }
     };
-  
-    const interval = setInterval(() => {
-      fetchData();
-    }, 5000); 
-  
-    return () => {
-      clearInterval(interval);
+
+    const fetchInitialBalance = async () => {
+      await fetchData();
+      const interval = setInterval(() => {
+        fetchData();
+      }, 10000);
+
+      return () => {
+        clearInterval(interval);
+      };
     };
-  }, [authAccount, authToken]);
-  
+
+    fetchInitialBalance();
+  }, [authAccount, authToken, authBalance]);
 
   return (
-    <View style={styles.balance}>
-      {saldo === null ? (
-        <ActivityIndicator size="large" color="#FF1577" />
-      ) : (
-        <Text style={styles.text}>R$: {saldo}</Text>
-      )}
+    <View style={stylesP.balance}>
+      <Text style={stylesP.text}>R$: {saldo === null ? authBalance : saldo}</Text>
     </View>
   );
 }

@@ -20,7 +20,6 @@ export default function Card() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(authAccount)
         const card = await axiosInstance.get(`/bank/api/v1/query/view/card/?search=${authAccount}`,
           {
             headers: {
@@ -58,7 +57,7 @@ export default function Card() {
         >
           <View style={styles.container_card}>
             <View style={styles.container_saldo}>
-              <Balance />
+              <Balance textColor="#F4F4F4" />
             </View>
             <View  style={styles.container_inf}>
               <View style={styles.number}>

@@ -87,6 +87,7 @@ class PixView(viewsets.GenericViewSet):
         receive_account = get_object_or_404(Account, pk=id_receive_account)
         
         transaction = Transaction.objects.create(
+            account=pay_account,
             receive_account=receive_account,
             value=value
         )

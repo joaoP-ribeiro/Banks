@@ -1,7 +1,6 @@
 import {View, ScrollView, Alert} from "react-native"
 import { useNavigation } from '@react-navigation/native';
 import {useState} from "react"
-import axios from 'axios'
 import * as yup from 'yup'
 import styles from "./style"
 import Buttom from "../../Components/Buttom"
