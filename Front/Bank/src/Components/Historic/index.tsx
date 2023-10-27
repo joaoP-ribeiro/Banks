@@ -1,8 +1,6 @@
 import { useEffect, useContext, useState } from "react";
 import { View, Text, ActivityIndicator} from "react-native";
-import axios from "axios";
 import TransactionsSearch from "../TransactionsSearch";
-import UserSearch from "../UsersSearch";
 import { AuthContext } from "../../context";
 import styles from "./style";
 import axiosInstance from "../../service/api";
@@ -13,7 +11,7 @@ interface Props{
   search: string | null
 }
 
-export default function Search({baseUrl, search}: Props) {
+export default function Historic({baseUrl, search}: Props) {
   const authContext = useContext(AuthContext)
   const authToken = authContext.authToken
   
@@ -48,12 +46,12 @@ export default function Search({baseUrl, search}: Props) {
       if (search) {
         fetchData();
       }
-    }, 1000); 
+    }, 10000); 
 
     return () => {
       clearTimeout(timeout);
     };
-  }, [search])
+  })
 
   return (
     <View style={styles.historic}>
@@ -63,8 +61,8 @@ export default function Search({baseUrl, search}: Props) {
         <View style={styles.cards}>
         {historic.length > 0 ? (
           <ScrollView>
-            {historic.slice(0, 5).map((transaction, index) => ( 
-              <UserSearch key={index} transaction={transaction} />
+            {historic.slice(-4).reverse().map((transaction, index) => (
+              <TransactionsSearch key={index} transaction={transaction} />
             ))}
           </ScrollView>
         ) : (

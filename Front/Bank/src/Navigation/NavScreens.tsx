@@ -13,6 +13,7 @@ import TabNav from './TabNav';
 import Account from '../Screens/account';
 import Pix from '../Screens/pix';
 import PixPay from '../Screens/pixPay';
+import User from '../Screens/user';
 
 const Stack = createStackNavigator()
 
@@ -34,6 +35,7 @@ export default function NavScreens() {
             <Stack.Screen name="home" component={TabNav} options={{headerShown: false}}/>
             <Stack.Screen name="pix" component={Pix} options={{headerShown: false}}/>
             <Stack.Screen name="pixPay" component={PixPay} options={{headerShown: false}}/>
+            <Stack.Screen name="user" component={User} options={{headerShown: false}}/>
           </Stack.Navigator>
         </AuthProvider>
       </NavigationContainer>

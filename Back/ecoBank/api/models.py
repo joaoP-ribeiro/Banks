@@ -83,7 +83,6 @@ class NaturalPerson(models.Model):
         self.cpf = self.client.identification_number
         self.client.typee = "Normal"
         self.client.name = self.name
-        self.client.photograph = self.name[0]
         self.client.save()
         super(NaturalPerson, self).save(*args, **kwargs)
 
@@ -104,7 +103,6 @@ class LegalPerson(models.Model):
         self.cnpj = self.client.identification_number
         self.client.typee = "Legal"
         self.client.name = self.fantasy_name
-        self.client.photograph = self.fantasy_name[0]
         self.client.save()
         super(LegalPerson, self).save(*args, **kwargs)
 
@@ -121,7 +119,7 @@ class Address(models.Model):
     uf = models.CharField('UF', max_length=2)
 
     def __str__(self):
-        return self.cep
+        return f'{self.cep}'
 
 
 class Email(models.Model):
@@ -129,7 +127,7 @@ class Email(models.Model):
     email = models.EmailField('E-mail', unique=True)
 
     def __str__(self):
-        return self.email
+        return f'{self.email}'
 
 
 class Phone(models.Model):
@@ -139,7 +137,7 @@ class Phone(models.Model):
     area_code = models.CharField('Area Code', max_length=2)
 
     def __str__(self):
-        return self.phone
+        return f'{self.phone}'
     
 class Account(models.Model):
     client = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='client_account')
@@ -161,6 +159,9 @@ class Account(models.Model):
         self.client.account = self.number
         self.client.save()
         super(Account, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f'{self.number}'
 
 class Card(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_card')
@@ -232,6 +233,7 @@ class Historic(models.Model):
     def save(self, *args, **kwargs):
         self.date = datetime.now()
         super(Historic, self).save(*args, **kwargs)
+
 
 @receiver(post_save, sender=CustomUsuario)
 def create_token_for_user(sender, instance, created, **kwargs):

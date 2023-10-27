@@ -5,14 +5,17 @@ import axios from 'axios'
 import axiosInstance from "../../service/api";
 import { useContext } from 'react';
 import  { AuthContext } from '../../context'
+import { useNavigation } from '@react-navigation/native'
 import styles from "./style"
 
 export default function Headerr(){
-    const authContext = useContext(AuthContext);
-    const authToken = authContext.authToken;
+    const authContext = useContext(AuthContext)
+    const authToken = authContext.authToken
+    const authName = authContext.name
     const authIdentificationNumber = authContext.valueIdentificationNumber
-
-    const [loading, setLoading] = useState(true);
+    const navigation = useNavigation()
+    const [loading, setLoading] = useState(true)
+    const [name, setName] = useState<string | null>(null)
 
   
     useEffect(() => {
@@ -39,6 +42,7 @@ export default function Headerr(){
                 authContext.setImg(photograph)
                 authContext.setName(resultToDisplay)
                 authContext.setAccount(account)
+                setName(authName)
                 setLoading(false)
                 }
             catch(error) {
@@ -50,10 +54,15 @@ export default function Headerr(){
           }
         }, [authToken, authContext, loading]);
 
+        const user = () =>{
+            navigation.navigate('user')
+        }
 
     return(
         <View style={styles.header}>
-            <TouchableOpacity style={styles.column1}>
+            <TouchableOpacity style={styles.column1}
+                onPress={user}
+            >
                 <FeatherIcon name={'user'} size={30} color={'#FFF'}/>
             </TouchableOpacity>
             <View style={styles.column2}>
@@ -64,9 +73,9 @@ export default function Headerr(){
                 }
             </View>
             <View style={styles.column3}>
-                {authContext.img && authContext.img.length === 1 ? 
+                {!authContext.img ? 
                     <View style={styles.contFistLetter}>
-                        <Text style={styles.text}>{authContext.img}</Text>
+                        <Text style={styles.text}>{ name ? name[0]: null}</Text>
                     </View>
                 : 
                     <View style={styles.contFistLetter}>

@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import Title from "../../Components/Title";
 import styles from "./style";
 import { AuthContext } from "../../context";
 import Headerr from "../../Components/Header";
 import Top from "../../Components/Top";
 import Card from "../../Components/Card";
-import Search from "../../Components/Search";
 import { ScrollView } from "react-native-gesture-handler";
+import Historic from "../../Components/Historic";
 
 export default function Home() {
   const authContext = useContext(AuthContext)
@@ -25,7 +25,7 @@ export default function Home() {
             <Top title="Card" marginTop={'8%'} />
             <Card/>
             <Top title="Historic" marginTop={'5%'} />
-            <Search baseUrl="/bank/api/v1/query/view/historic?search=" search={authAccount} useRow={1} />
+            <Historic baseUrl="/bank/api/v1/query/view/historic?search=" search={authAccount}/>
           </View>
         </ScrollView>
       </View>

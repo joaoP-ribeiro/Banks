@@ -9,11 +9,11 @@ interface Props {
 }
 
 export default function Balance({ textColor }: Props) {
-  const authContext = useContext(AuthContext);
-  const authToken = authContext.authToken;
-  const authAccount = authContext.account;
-  const authBalance = authContext.balance;
-  const [saldo, setSaldo] = useState<number | null>(null);
+  const authContext = useContext(AuthContext)
+  const authToken = authContext.authToken
+  const authAccount = authContext.account
+  const authBalance = authContext.balance
+  const [saldo, setSaldo] = useState<number | null>(null)
 
   const stileProps: Props = {
     textColor: textColor
@@ -56,7 +56,7 @@ export default function Balance({ textColor }: Props) {
 
   return (
     <View style={stylesP.balance}>
-      <Text style={stylesP.text}>R$: {saldo === null ? authBalance : saldo}</Text>
+      <Text style={stylesP.text}>R$: {saldo === null ? <ActivityIndicator size="large" color="#7200E3" /> : saldo.toFixed(2)}</Text>
     </View>
   );
 }
