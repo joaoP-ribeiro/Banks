@@ -14,6 +14,7 @@ import Account from '../Screens/account';
 import Pix from '../Screens/pix';
 import PixPay from '../Screens/pixPay';
 import User from '../Screens/user';
+import Loan from '../Screens/loan';
 
 const Stack = createStackNavigator()
 
@@ -22,7 +23,7 @@ export default function NavScreens() {
     return (
       <NavigationContainer>
         <AuthProvider>
-          <Stack.Navigator initialRouteName="inicialPage">
+          <Stack.Navigator initialRouteName="loan">
             <Stack.Screen name="login" component={Login} options={{headerShown: false}}/>
             <Stack.Screen name="createAccount" component={CreateAccount} options={{headerShown: false}}/>
             <Stack.Screen name="normalAccount" component={NormalAccount} options={{headerShown: false}}/>
@@ -36,6 +37,7 @@ export default function NavScreens() {
             <Stack.Screen name="pix" component={Pix} options={{headerShown: false}}/>
             <Stack.Screen name="pixPay" component={PixPay} options={{headerShown: false}}/>
             <Stack.Screen name="user" component={User} options={{headerShown: false}}/>
+            <Stack.Screen name="loan" component={Loan} options={{headerShown: false}}/>
           </Stack.Navigator>
         </AuthProvider>
       </NavigationContainer>

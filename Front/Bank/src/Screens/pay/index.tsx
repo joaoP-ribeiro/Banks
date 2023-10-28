@@ -17,6 +17,11 @@ export default function Pay() {
     navigation.navigate('pix') 
   }
 
+  const loan = () =>{
+    navigation.navigate('loan') 
+  }
+
+
   return (
     <View style={styles.page}>
       <View style={styles.content}>
@@ -29,7 +34,7 @@ export default function Pay() {
               <Perfil img="payImage" text="Transaction Forms"/>
               <Buttom title='Pix' icon='' size={20} color='#E5E4E4' textColor='#FF1577' width={'85%'} heigth={65} marginTop={'7%'} border={32} just={'center'} aling={''} function={pix} padding={15}/>
               <Buttom title='Card' icon='' size={20} color='#E5E4E4' textColor='#FF1577' width={'85%'} heigth={65} marginTop={'7%'} border={32} just={'center'} aling={''} function={pix} padding={15}/>
-              <Buttom title='Loan' icon='' size={20} color='#E5E4E4' textColor='#FF1577' width={'85%'} heigth={65} marginTop={'7%'} border={32} just={'center'} aling={''} function={pix} padding={15}/>
+              <Buttom title='Loan' icon='' size={20} color='#E5E4E4' textColor='#FF1577' width={'85%'} heigth={65} marginTop={'7%'} border={32} just={'center'} aling={''} function={loan} padding={15}/>
               <Buttom title='Investments' icon='' size={20} color='#E5E4E4' textColor='#FF1577' width={'85%'} heigth={65} marginTop={'7%'} border={32} just={'center'} aling={''} function={pix} padding={15}/>
             </View>
           </ScrollView>

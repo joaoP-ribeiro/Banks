@@ -22,7 +22,7 @@ export default function Pix() {
             setKeyPix(newValue)
         }}/>
         <Top title="Users" marginTop={'5%'} />
-        <Search baseUrl="bank/api/v1/query/view/clients?search=" search={keyPix} useRow={2} />
+        <Search baseUrl="bank/api/v1/query/view/clients?search=" search={keyPix}/>
         
       </View>
     </View>
