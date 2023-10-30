@@ -10,6 +10,7 @@ import { useRoute } from "@react-navigation/native";
 import { AuthContext } from "../../context";
 import axiosInstance from "../../service/api";
 import Buttom from "../../Components/Buttom";
+import Perfil from "../../Components/Perfil";
 
 interface Props{
   account: number

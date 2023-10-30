@@ -15,6 +15,10 @@ import Pix from '../Screens/pix';
 import PixPay from '../Screens/pixPay';
 import User from '../Screens/user';
 import Loan from '../Screens/loan';
+import CardScreen from '../Screens/cardScreen';
+import Investments from '../Screens/investments';
+import Invest from '../Screens/invest';
+import SeeInvestments from '../Screens/seeInvestments';
 
 const Stack = createStackNavigator()
 
@@ -23,7 +27,7 @@ export default function NavScreens() {
     return (
       <NavigationContainer>
         <AuthProvider>
-          <Stack.Navigator initialRouteName="loan">
+          <Stack.Navigator initialRouteName="inicialPage">
             <Stack.Screen name="login" component={Login} options={{headerShown: false}}/>
             <Stack.Screen name="createAccount" component={CreateAccount} options={{headerShown: false}}/>
             <Stack.Screen name="normalAccount" component={NormalAccount} options={{headerShown: false}}/>
@@ -38,6 +42,10 @@ export default function NavScreens() {
             <Stack.Screen name="pixPay" component={PixPay} options={{headerShown: false}}/>
             <Stack.Screen name="user" component={User} options={{headerShown: false}}/>
             <Stack.Screen name="loan" component={Loan} options={{headerShown: false}}/>
+            <Stack.Screen name="cardScreen" component={CardScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="investments" component={Investments} options={{headerShown: false}}/>
+            <Stack.Screen name="invest" component={Invest} options={{headerShown: false}}/>
+            <Stack.Screen name="seeInvestments" component={SeeInvestments} options={{headerShown: false}}/>
           </Stack.Navigator>
         </AuthProvider>
       </NavigationContainer>

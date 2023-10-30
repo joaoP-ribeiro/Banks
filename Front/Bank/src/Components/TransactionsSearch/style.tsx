@@ -44,7 +44,9 @@ const styles = StyleSheet.create({
     },
 
     info:{
-        flex: 1
+        flex: 1,
+        flexDirection: 'row',
+        gap: 12
     },
 
     tipe:{

@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import Title from "../../Components/Title";
 import styles from "./style";
-import Top from "../../Components/Top";
 import Card from "../../Components/Card";
 import Input from "../../Components/Input";
-import Search from "../../Components/Search";
 import ModalSelector from 'react-native-modal-selector';
 import Buttom from "../../Components/Buttom";
 
-export default function Loan() {
-  const [value, setValue] = useState('');
-  const [installments, setInstallments] = useState(3);
+export default function CardScreen() {
+  const [value, setValue] = useState('')
+  const [account, setAccount] = useState('')
+  const [installments, setInstallments] = useState(3)
 
   const installmentsData = [
     { key: 3, label: "3" },
@@ -26,6 +25,9 @@ export default function Loan() {
       </View>
       <View style={styles.main}>   
         <Card/>
+        <Input title='Account' marginTop={'2%'} width={'80%'} type={'numeric'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
+            setAccount(newValue)
+        }}/>
         <Input title='Value' marginTop={'2%'} width={'80%'} type={'numeric'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
             setValue(newValue)
         }}/>
@@ -35,7 +37,6 @@ export default function Loan() {
             data={installmentsData}
             initValue="Installments"
             initValueTextStyle={{ color: '#232323', fontWeight: 'bold' }}
-            
             onChange={(option) => setInstallments(option.key)}
           />
         </View>

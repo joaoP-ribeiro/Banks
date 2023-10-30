@@ -25,15 +25,10 @@ const styles = StyleSheet.create({
         
     },
 
-    container_select:{
-        marginTop: '5%',
+    bt:{
+        width: '100%',
         justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    select:{
-        backgroundColor: '#1FF2FF',
-        width: 120
+        alignItems: 'center',
     },
    
 })

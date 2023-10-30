@@ -127,5 +127,5 @@ class InvestmentAdmin(admin.ModelAdmin):
 
 @admin.register(Historic)
 class HistoricAdmin(admin.ModelAdmin):
-    list_display = ['account', 'transaction', 'positive_negative', 'value', 'name', 'number', 'date']
+    list_display = ['account', 'transaction', 'positive_negative', 'value', 'name', 'number', 'installments', 'installment_value', 'date']
 

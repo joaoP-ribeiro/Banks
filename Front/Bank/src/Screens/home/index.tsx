@@ -25,7 +25,7 @@ export default function Home() {
             <Top title="Card" marginTop={'8%'} />
             <Card/>
             <Top title="Historic" marginTop={'5%'} />
-            <Historic baseUrl="/bank/api/v1/query/view/historic?search=" search={authAccount}/>
+            <Historic baseUrl="/bank/api/v1/query/view/historic?search=" search={authAccount} number={-4}/>
           </View>
         </ScrollView>
       </View>

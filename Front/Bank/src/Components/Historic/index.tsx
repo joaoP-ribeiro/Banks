@@ -9,9 +9,10 @@ import { ScrollView } from "react-native-gesture-handler";
 interface Props{
   baseUrl: string
   search: string | null
+  number: number
 }
 
-export default function Historic({baseUrl, search}: Props) {
+export default function Historic({baseUrl, search, number}: Props) {
   const authContext = useContext(AuthContext)
   const authToken = authContext.authToken
   
@@ -61,7 +62,7 @@ export default function Historic({baseUrl, search}: Props) {
         <View style={styles.cards}>
         {historic.length > 0 ? (
           <ScrollView>
-            {historic.slice(-4).reverse().map((transaction, index) => (
+            {historic.slice(number).reverse().map((transaction, index) => (
               <TransactionsSearch key={index} transaction={transaction} />
             ))}
           </ScrollView>

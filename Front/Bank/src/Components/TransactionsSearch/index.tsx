@@ -33,17 +33,14 @@ export default function TransactionsSearch({transaction}: {transaction: Historic
         <View style={styles.infos}>
           <View style={styles.info}>
             <Text style={styles.tipe}>{transaction.transaction}</Text>
+            <Text style={styles.tipe}>{transaction.date}</Text>
           </View>
-          {/* 
-          <View style={styles.info}>
-            <Text style={styles.tipe}>{transaction.number}</Text>
-          </View>
-          */}
         </View>
       </View>
       <View style={styles.container_value}>
           <Text style={styles.tipe}>RS:</Text>
           <Text style={styles.value}>{transaction.value}</Text>
+          
       </View>
     </View>
   );

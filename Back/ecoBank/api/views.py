@@ -123,10 +123,11 @@ class LoanView(viewsets.ModelViewSet):
 
     def create(self, request):
         id_account = request.data.get('account')
-        installment_value = request.data.get('installment_value')
         times = request.data.get('times')
         value = request.data.get('value')
         account = get_object_or_404(Account, pk=id_account)
+
+        installment_value = value / times
 
         loan = Loan.objects.create(
             account=account,
@@ -140,6 +141,8 @@ class LoanView(viewsets.ModelViewSet):
             transaction='Loan',
             positive_negative='+',
             value=value,
+            installments = times,
+            installment_value = installment_value,
             name='Bank',
             number='0000001'
         )

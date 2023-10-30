@@ -17,6 +17,11 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
+    scrol:{
+        flex: 1,
+        width: '100%',
+    },
+
     main:{
         height: '87%',
         backgroundColor: '#F4F4F4',
@@ -25,15 +30,11 @@ const styles = StyleSheet.create({
         
     },
 
-    container_select:{
-        marginTop: '5%',
+    infos:{
+        flex:1,
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center'
-    },
-
-    select:{
-        backgroundColor: '#1FF2FF',
-        width: 120
     },
    
 })

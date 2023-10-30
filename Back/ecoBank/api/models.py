@@ -198,8 +198,8 @@ class Transaction(models.Model):
 class Loan(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_loan')
     date = models.DateField(null=True, blank=True)
-    installment_value = models.DecimalField('Installment Value', max_digits=15, decimal_places=2)
-    times = models.CharField('Times', max_length=2)
+    installment_value = models.DecimalField('Installment Value', max_digits=15, decimal_places=2, null=True, blank=True)
+    times = models.IntegerField('Times')
     value = models.DecimalField("Value", max_digits=15, decimal_places=2)
 
     def save(self, *args, **kwargs):
@@ -228,6 +228,8 @@ class Historic(models.Model):
     value = models.DecimalField("Value", max_digits=15, decimal_places=2)
     name = models.CharField('Name', max_length=80)
     number = models.CharField('Number', max_length=7)
+    installments =  models.IntegerField('Installments', blank=True,  null=True)
+    installment_value = models.DecimalField('Installment Value', max_digits=15, decimal_places=2, null=True, blank=True)
     date = models.DateField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
