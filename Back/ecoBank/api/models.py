@@ -153,7 +153,7 @@ class Account(models.Model):
             self.number = random.randint(1000000, 9999999)
             self.agency = random.randint(1000, 9999)
             self.status = True
-            self.credit_limit = 100000.00
+            self.credit_limit = 1000.00
             self.saldo = 0.0
 
         self.client.account = self.number
@@ -187,7 +187,9 @@ class Transaction(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='transaction_account')
     date = models.DateField(null=True, blank=True)
     receive_account = models.CharField('Account', max_length=7)
-    value = models.DecimalField("Value", max_digits=15, decimal_places=2)
+    value = models.DecimalField('Value', max_digits=15, decimal_places=2)
+    typee = models.CharField('Type', max_length=10)
+    installments = models.IntegerField('Installments', null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.date = datetime.now()
@@ -201,6 +203,7 @@ class Loan(models.Model):
     installment_value = models.DecimalField('Installment Value', max_digits=15, decimal_places=2, null=True, blank=True)
     times = models.IntegerField('Times')
     value = models.DecimalField("Value", max_digits=15, decimal_places=2)
+    typee = models.CharField('Type', max_length=10)
 
     def save(self, *args, **kwargs):
         self.date = datetime.now().date()

@@ -42,7 +42,9 @@ class PixSerializer(serializers.ModelSerializer):
             'date',
             'account',
             'receive_account',
-            'value'
+            'value',
+            'typee',
+            'installments'
         ]
 
 
@@ -66,7 +68,8 @@ class LoanSerializer(serializers.ModelSerializer):
             'date',
             'installment_value',
             'times',
-            'value'
+            'value',
+            'typee'
         ]
 
 class InvestimentsSerializer(serializers.ModelSerializer):

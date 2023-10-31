@@ -115,11 +115,11 @@ class CardAdmin(admin.ModelAdmin):
     
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ['account', 'date', 'receive_account', 'value']
+    list_display = ['account', 'date', 'receive_account', 'value', 'typee']
 
 @admin.register(Loan)
 class LoanAdmin(admin.ModelAdmin):
-    list_display = ['account', 'date', 'installment_value', 'times', 'value']
+    list_display = ['account', 'date', 'installment_value', 'times', 'value', 'typee']
 
 @admin.register(Investment)
 class InvestmentAdmin(admin.ModelAdmin):

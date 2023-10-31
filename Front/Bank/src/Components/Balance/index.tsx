@@ -52,7 +52,7 @@ export default function Balance({ textColor }: Props) {
     };
 
     fetchInitialBalance();
-  }, [authAccount, authToken, authBalance]);
+  }, [authAccount, authToken]);
 
   return (
     <View style={stylesP.balance}>

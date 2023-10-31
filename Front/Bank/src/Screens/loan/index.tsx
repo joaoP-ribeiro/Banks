@@ -1,17 +1,22 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { useState, useContext } from "react";
+import { View, Alert } from "react-native";
 import Title from "../../Components/Title";
 import styles from "./style";
-import Top from "../../Components/Top";
 import Card from "../../Components/Card";
 import Input from "../../Components/Input";
-import Search from "../../Components/Search";
 import ModalSelector from 'react-native-modal-selector';
 import Buttom from "../../Components/Buttom";
+import * as yup from 'yup'
+import { AuthContext } from "../../context";
+import axiosInstance from "../../service/api";
 
 export default function Loan() {
   const [value, setValue] = useState('');
   const [installments, setInstallments] = useState(3);
+  const authContext = useContext(AuthContext)
+  const authToken = authContext.authToken
+  const authAccount = authContext.account
+  const authBalance = authContext.balance
 
   const installmentsData = [
     { key: 3, label: "3" },
@@ -19,6 +24,38 @@ export default function Loan() {
     { key: 12, label: "12" }
   ];
 
+  const schema = yup.object().shape({
+    value: yup.string().required('Enter a value'),
+  });
+
+  const loan = async () =>{
+    await schema.validate({ value: value}, { abortEarly: false });
+    const valueNumber = parseFloat(value)
+    setValue('')
+    if (authBalance !== null) {
+      if (valueNumber > 3 * 1000 && authBalance < 10000) {
+        Alert.alert('Value', 'The loan amount cannot exceed 3 times your letter of credit');
+      } else if (authBalance >= 10000) {
+        Alert.alert('Value', 'You cannot take a loan when your balance is greater than or equal to 10000');
+      } else {
+        try {
+          const loan = await axiosInstance.post('/bank/api/v1/query/loan/', {
+            account: authAccount,
+            times: installments,
+            value: valueNumber,
+            typee: 'Loan',
+          }, {
+            headers: {
+              'Authorization': `Token ${authToken}`,
+            },
+          });
+          Alert.alert('success', 'Successful loan');
+        } catch (error) {
+          setValue('');
+        }
+      }
+    }    
+  }
   return (
     <View style={styles.page}>
       <View style={styles.content}>
@@ -39,8 +76,8 @@ export default function Loan() {
             onChange={(option) => setInstallments(option.key)}
           />
         </View>
-        
+        <Buttom title='Pay' icon='' size={20} color='#FF1577' textColor='#FFFFFF' width={125} heigth={40} marginTop={140} border={90} just={'center'} aling={'center'} function={loan} padding={''}/>
       </View>
     </View>
-  );//<Buttom title='Pay' icon='' size={20} color='#FF1577' textColor='#FFFFFF' width={125} heigth={40} marginTop={140} border={90} just={'center'} aling={'center'} function={} padding={''}/>
+  )
 }

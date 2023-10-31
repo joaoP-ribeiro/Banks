@@ -3,7 +3,7 @@ import imgs from "../../service/imgs"
 import styles from "./style";
 
 interface Props {
-    text: string
+    text: any
     img: string
 }
 

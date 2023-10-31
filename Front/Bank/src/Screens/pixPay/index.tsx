@@ -10,7 +10,7 @@ import { useRoute } from "@react-navigation/native";
 import { AuthContext } from "../../context";
 import axiosInstance from "../../service/api";
 import Buttom from "../../Components/Buttom";
-import Perfil from "../../Components/Perfil";
+
 
 interface Props{
   account: number
@@ -28,7 +28,7 @@ export default function PixPay() {
   const [valuePix, setValuePix] = useState('')
 
   const schema = yup.object().shape({
-    value: yup.string().required('Coloeque um valor'),
+    value: yup.string().required('Enter a value'),
   });
 
   const pay = async () =>{
@@ -45,15 +45,14 @@ export default function PixPay() {
         const pix = await axiosInstance.post('/bank/api/v1/query/transaction/', {
             account: authAccount,
             receive_account: account,
-            value: valueNumber
+            value: valueNumber,
+            typee: 'Pix'
           }, {
             headers: {
                 'Authorization': `Token ${authToken}`
             }
-        }
-        
-        )
-        
+        })
+        Alert.alert('success', 'successful pix')
         }
         catch(error) {setValuePix('')
         }

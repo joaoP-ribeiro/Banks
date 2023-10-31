@@ -83,27 +83,32 @@ class PixView(viewsets.GenericViewSet):
         id_pay_account = request.data.get('account')
         id_receive_account = request.data.get('receive_account')
         value = request.data.get('value')
+        typee = request.data.get('typee')
+        installments = request.data.get('installments')
         pay_account = get_object_or_404(Account, pk=id_pay_account)
         receive_account = get_object_or_404(Account, pk=id_receive_account)
         
         transaction = Transaction.objects.create(
             account=pay_account,
             receive_account=receive_account,
-            value=value
+            value=value,
+            typee=typee,
+            installments=installments,
         )
 
         historic = Historic.objects.create(
             account=pay_account,
-            transaction='Pix',
+            transaction=typee,
             positive_negative='-',
             value=value,
+            installments=installments,
             name=receive_account.client.name,
             number=receive_account
         )
 
         historic = Historic.objects.create(
             account=receive_account,
-            transaction='Pix',
+            transaction=typee,
             positive_negative='+',
             value=value,
             name=pay_account.client.name,
@@ -125,6 +130,7 @@ class LoanView(viewsets.ModelViewSet):
         id_account = request.data.get('account')
         times = request.data.get('times')
         value = request.data.get('value')
+        typee = request.data.get('typee')
         account = get_object_or_404(Account, pk=id_account)
 
         installment_value = value / times
@@ -133,15 +139,16 @@ class LoanView(viewsets.ModelViewSet):
             account=account,
             installment_value=installment_value,
             times=times,
-            value=value
+            value=value,
+            typee=typee
         )
 
         historic = Historic.objects.create(
             account=account,
-            transaction='Loan',
+            transaction=typee,
             positive_negative='+',
             value=value,
-            installments = times,
+            installments=times,
             installment_value = installment_value,
             name='Bank',
             number='0000001'
@@ -182,11 +189,14 @@ class HistoricViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         search = self.request.query_params.get('search')
+        transaction = self.request.query_params.get('transaction')
+        filters = Q()
         if search:
-            account = Historic.objects.filter(
-                Q(account__number__icontains=search)
-            ).distinct()
-            return account
+            filters &= Q(account__number__icontains=search)
+        if transaction:
+            filters &= Q(transaction__icontains=transaction)
+        if filters:
+            return Historic.objects.filter(filters).distinct()
         else:
             return Historic.objects.all()
 

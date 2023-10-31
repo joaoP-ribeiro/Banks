@@ -15,16 +15,42 @@ export default function Invest() {
   const authContext = useContext(AuthContext)
   const authToken = authContext.authToken
   const authAccount = authContext.account
+  const authBalance = authContext.balance
 
 
-  const [valuePix, setValuePix] = useState('')
+  const [valueInvest, setValueInvest] = useState('')
 
   const schema = yup.object().shape({
     value: yup.string().required('Coloeque um valor'),
   });
 
-  const invest = () =>{
-    
+  const invest = async () =>{
+    await schema.validate({ value: valueInvest}, { abortEarly: false });
+    const valueNumber = parseFloat(valueInvest)
+    setValueInvest('')
+    if(authBalance !== null && valueNumber > authBalance){
+      Alert.alert('Value', 'insufficient balance')
+    }
+    else{
+      
+      try{
+        
+        const invest = await axiosInstance.post('/bank/api/v1/query/transaction/', {
+            account: authAccount,
+            receive_account: '5530021',
+            value: valueNumber,
+            typee: 'Investments'
+          }, {
+            headers: {
+                'Authorization': `Token ${authToken}`
+            }
+        })
+        Alert.alert('success', 'successful investment')
+        
+        }
+        catch(error) {setValueInvest('')
+        }
+    }
   }
 
   return (
@@ -37,7 +63,7 @@ export default function Invest() {
         <Top title='Your Balance' marginTop={'0%'} />
         <Balance textColor='#FFBD15'/>
         <Input title='Invest' marginTop={'7%'} width={'80%'} type={'numeric'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
-            setValuePix(newValue)
+            setValueInvest(newValue)
         }}/>
         <View style={styles.bt}>
           <Buttom title='Invest' icon='' size={20} color='#FF1577' textColor='#FFFFFF' width={125} heigth={40} marginTop={140} border={90} just={'center'} aling={'center'} function={invest} padding={''}/>
