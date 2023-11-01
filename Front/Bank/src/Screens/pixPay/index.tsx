@@ -67,7 +67,6 @@ export default function PixPay() {
       <View style={styles.main}>
         <Title title={name} size={20} textColor="#000" marginTop={'0%'} />
         <Top title='Your Balance' marginTop={'0%'} />
-        <Balance textColor='#7200E3'/>
         <Input title='Value' marginTop={'7%'} width={'80%'} type={'numeric'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
             setValuePix(newValue)
         }}/>

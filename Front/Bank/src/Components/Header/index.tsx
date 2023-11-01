@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from "react-native"
+import {View, Text, TouchableOpacity, Image} from "react-native"
 import FeatherIcon from 'react-native-vector-icons/Feather'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
@@ -40,6 +40,7 @@ export default function Headerr(){
                     resultToDisplay = response.results[0].legal_person["fantasy_name"];
                 }
                 authContext.setImg(photograph)
+                console.log(photograph)
                 authContext.setName(resultToDisplay)
                 authContext.setAccount(account)
                 setName(authName)
@@ -79,7 +80,10 @@ export default function Headerr(){
                     </View>
                 : 
                     <View style={styles.contFistLetter}>
-                        <Text style={styles.text}>!</Text>
+                        <Image
+                           source={{uri : authContext.img}}
+                           style={styles.img} 
+                        />
                     </View>}
             </View>
         </View>

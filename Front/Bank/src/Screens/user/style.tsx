@@ -23,11 +23,17 @@ const styles = StyleSheet.create({
     },
 
     main:{
-        height: '87%',
+        height: '74%',
         backgroundColor: '#F4F4F4',
         borderTopRightRadius: 60,
         borderTopLeftRadius: 60,
         
+    },
+
+    container_img:{
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     infos:{

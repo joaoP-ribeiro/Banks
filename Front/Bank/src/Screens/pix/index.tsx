@@ -17,7 +17,6 @@ export default function Pix() {
       </View>
       <View style={styles.main}>
         <Top title="" marginTop={'0%'} />
-        <Card/>
         <Input title='Pix/Key' marginTop={'7%'} width={'80%'} type={'numeric'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
             setKeyPix(newValue)
         }}/>

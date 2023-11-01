@@ -43,7 +43,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 20
-    }
+    },
+
+    img:{
+        width: 60,
+        height: 60,
+        borderRadius: 20
+    },
 
     
     

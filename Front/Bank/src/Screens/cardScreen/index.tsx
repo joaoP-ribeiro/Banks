@@ -24,7 +24,6 @@ export default function CardScreen() {
         <Title title="Bank" size={20} textColor="#FFFFFF" marginTop={'7%'} />
       </View>
       <View style={styles.main}>   
-        <Card/>
         <Input title='Account' marginTop={'2%'} width={'80%'} type={'numeric'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
             setAccount(newValue)
         }}/>
@@ -43,5 +42,5 @@ export default function CardScreen() {
         
       </View>
     </View>
-  );//<Buttom title='Pay' icon='' size={20} color='#FF1577' textColor='#FFFFFF' width={125} heigth={40} marginTop={140} border={90} just={'center'} aling={'center'} function={} padding={''}/>
+  );
 }

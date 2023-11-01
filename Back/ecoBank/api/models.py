@@ -43,7 +43,7 @@ class UsuarioManager(BaseUserManager):
 
 class CustomUsuario(AbstractUser):
     identification_number = models.CharField('Identification Number', max_length=14, unique=True, primary_key=True)
-    photograph = models.CharField('Photograph', max_length=400, blank=True)
+    photograph = models.ImageField('Photograph', blank=True)
     typee = models.CharField('Type', max_length=30, blank=True)
     account = models.CharField('Account', max_length=7, blank=True)
     name = models.CharField('Name', max_length=80, blank=True)

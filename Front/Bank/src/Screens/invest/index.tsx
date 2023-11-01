@@ -61,7 +61,6 @@ export default function Invest() {
       <View style={styles.main}>
         <Title title='Invest' size={20} textColor="#000" marginTop={'0%'} />
         <Top title='Your Balance' marginTop={'0%'} />
-        <Balance textColor='#FFBD15'/>
         <Input title='Invest' marginTop={'7%'} width={'80%'} type={'numeric'} size={20} limit={14} passowrd={false} onReturn={(newValue: string) => {
             setValueInvest(newValue)
         }}/>

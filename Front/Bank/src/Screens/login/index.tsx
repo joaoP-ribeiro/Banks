@@ -38,10 +38,16 @@ export default function Login(){
 
             navigation.navigate('home')
         }
-        catch(error) {
-            Alert.alert('Erro', String(error))
+        catch(error: any) {
+            if (error.response) {
+                const status = error.response.status; 
+                if (status === 400) {
+                  Alert.alert('Erro', 'Number or Password is incorrect');
+                } else {
+                  Alert.alert('Erro', 'Wait a minute to log in again');
+                }
+            }
         }
-       
     }
 
     const createAccount = () =>{
@@ -62,7 +68,6 @@ export default function Login(){
                     <Input title='Passoword' marginTop={'7%'} width={'80%'} type={'default'} size={20} limit={20} passowrd={true} onReturn={(newValue: string) => {
                     setValuePass(newValue)}}/>
                     <View style={styles.pdButtom}>
-                        <Buttom title='Forgot my password' icon='' size={20} color='transparent' textColor='#AFAFAF' width={'100%'} heigth={30} marginTop={"5%"} border={0} just={''} aling={''} function={home} padding={''}/>
                         <Buttom title='Create account' icon='' size={20} color='transparent' textColor='#AFAFAF' width={'100%'} heigth={30} marginTop={"5%"} border={0} just={''} aling={''} function={createAccount} padding={''}/>
                     </View>
                     <View style={styles.buttom}>
