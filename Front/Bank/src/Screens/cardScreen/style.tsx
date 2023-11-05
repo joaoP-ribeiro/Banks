@@ -35,6 +35,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#1FF2FF',
         width: 120
     },
+
+    bt:{
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
    
 })
 export default styles

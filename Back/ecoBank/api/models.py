@@ -11,6 +11,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 import random
 
+from django.core.exceptions import ValidationError
 
 class UsuarioManager(BaseUserManager):
     use_in_migrations = True
@@ -178,6 +179,10 @@ class Card(models.Model):
             self.create_date = datetime.now().date()
             self.expiration_date = (datetime.now() + timedelta(days=(365))).date()
             self.status = True
+
+        if self.account.account_card.count() >= 2:
+            raise ValidationError("An account can have a maximum of two cards.")
+        
         super(Card, self).save(*args, **kwargs)
 
     def __str__(self):

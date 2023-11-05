@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 const axiosInstance = axios.create({
-  baseURL: 'http://joaopedro17.pythonanywhere.com'
+  baseURL: 'http://localhost:8000'
   , 
 });
 

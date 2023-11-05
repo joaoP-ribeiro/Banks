@@ -6,6 +6,9 @@ from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 from .models import CustomUsuario, NaturalPerson, Email, Phone, LegalPerson, Address, Account, Card, Transaction, Loan, Investment, Historic
 
+from django.http import JsonResponse
+from rest_framework import status
+
 from .serializer import ClientSerializer, HistoricSerializer, EmailSerializer, PhoneSerializer, AddressSerializer, NaturalPersonSerializer, LegalPersonSerializer, AccountSerializer, CardSerializer, PixSerializer, LoanSerializer, InvestimentsSerializer
 from rest_framework.permissions import IsAuthenticated
 
@@ -133,6 +136,14 @@ class LoanView(viewsets.ModelViewSet):
         typee = request.data.get('typee')
         account = get_object_or_404(Account, pk=id_account)
 
+       
+        if value > 3 * account.credit_limit:
+            return JsonResponse({'error': 'Loan amount exceeds 3 times the credit limit.'}, status=status.HTTP_BAD_REQUEST)
+
+        
+        if account.saldo < 10000:
+            return JsonResponse({'error': 'Account balance is insufficient for a loan.'}, status=status.HTTP_BAD_REQUEST)
+
         installment_value = value / times
 
         loan = Loan.objects.create(
@@ -149,13 +160,14 @@ class LoanView(viewsets.ModelViewSet):
             positive_negative='+',
             value=value,
             installments=times,
-            installment_value = installment_value,
+            installment_value=installment_value,
             name='Bank',
             number='0000001'
         )
 
         account.saldo += value
         account.save()
+
 
 class InvestmentView(viewsets.ModelViewSet):
     serializer_class = InvestimentsSerializer
