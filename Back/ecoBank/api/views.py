@@ -215,6 +215,10 @@ class HistoricViewSet(viewsets.ModelViewSet):
         else:
             return Historic.objects.all()
 
+class CardHistoricViewSet(viewsets.ModelViewSet):
+    serializer_class = HistoricSerializer
+    queryset = Historic.objects.filter(transaction__iexact='Card')
+
 class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
     permission_classes = [IsAuthenticated]

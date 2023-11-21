@@ -245,6 +245,8 @@ class Historic(models.Model):
         super(Historic, self).save(*args, **kwargs)
 
 
+
+
 @receiver(post_save, sender=CustomUsuario)
 def create_token_for_user(sender, instance, created, **kwargs):
     if created:

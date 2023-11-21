@@ -46,7 +46,7 @@ export default function CardScreen() {
             account: authAccount,
             receive_account: account,
             value: valueNumber,
-            typee: 'Pix',
+            typee: 'Card',
             installments: installments
           }, {
             headers: {
