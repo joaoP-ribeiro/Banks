@@ -122,6 +122,9 @@ class PixView(viewsets.GenericViewSet):
         pay_account.saldo -= value
         receive_account.saldo += value
 
+        if pay_account.saldo < 0:
+            return Response({'message': 'Sua conta está negativa.'}, status=status.HTTP_400_BAD_REQUEST)
+
         pay_account.save()
         receive_account.save()
         
