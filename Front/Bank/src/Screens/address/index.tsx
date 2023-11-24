@@ -77,7 +77,7 @@ export default function Address(){
                     <Input title='Neighborhood' marginTop={'7%'} width={'80%'} type={'default'} size={20} limit={20} passowrd={false} onReturn={(newValue: string) => {
                         setValueNeighborhood(newValue)
                     }}/>
-                    <Input title='UF' marginTop={'7%'} width={'15%'} type={'defaultCampinas'} size={20} limit={20} passowrd={false} onReturn={(newValue: string) => {
+                    <Input title='UF' marginTop={'7%'} width={'15%'} type={'defaultCampinas'} size={20} limit={2} passowrd={false} onReturn={(newValue: string) => {
                         setValueUF(newValue)
                     }}/>
                     <View style={styles.buttom}>

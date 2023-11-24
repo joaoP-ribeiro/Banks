@@ -28,12 +28,14 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 60,
         borderTopLeftRadius: 60,
         
+        
     },
 
     container_img:{
         width: '100%',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        textAlign: 'center'
     },
 
     infos:{

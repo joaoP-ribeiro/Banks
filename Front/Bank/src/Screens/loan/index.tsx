@@ -24,38 +24,30 @@ export default function Loan() {
     { key: 12, label: "12" }
   ];
 
-  const schema = yup.object().shape({
-    value: yup.string().required('Enter a value'),
-  });
-
   const loan = async () =>{
-    await schema.validate({ value: value}, { abortEarly: false });
     const valueNumber = parseFloat(value)
     setValue('')
-    if (authBalance !== null) {
-      if (valueNumber > 3 * 1000 && authBalance < 10000) {
-        Alert.alert('Value', 'The loan amount cannot exceed 3 times your letter of credit');
-      } else if (authBalance >= 10000) {
-        Alert.alert('Value', 'You cannot take a loan when your balance is greater than or equal to 10000');
-      } else {
-        try {
-          const loan = await axiosInstance.post('/bank/api/v1/query/loan/', {
-            account: authAccount,
-            times: installments,
-            value: valueNumber,
-            typee: 'Loan',
-          }, {
-            headers: {
-              'Authorization': `Token ${authToken}`,
-            },
-          });
-          Alert.alert('success', 'Successful loan');
-        } catch (error) {
-          setValue('');
-        }
-      }
-    }    
+    try {
+      const loan = await axiosInstance.post('/bank/api/v1/query/loan/', {
+        account: authAccount,
+        times: installments,
+        value: valueNumber,
+        typee: 'Loan',
+      }, {
+        headers: {
+          'Authorization': `Token ${authToken}`,
+        },
+      });
+      alert()
+    } catch (error) {
+      console.log(error)
+    }   
   }
+
+  const alert = () =>{
+    Alert.alert('success', 'Successful loan');
+  }
+
   return (
     <View style={styles.page}>
       <View style={styles.content}>
