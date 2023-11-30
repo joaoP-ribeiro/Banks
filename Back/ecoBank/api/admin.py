@@ -53,7 +53,7 @@ class CustomUsuarioAdmin(UserAdmin):
     add_form = CustomUsuarioCreateForm
     form = CustomUsuarioChangeForm
     model = CustomUsuario
-    list_display = ["identification_number", "photograph", 'typee', 'name', "token"]
+    list_display = ["identification_number", "password", "photograph", 'typee', 'name', "token"]
 
     fieldsets = [
         [

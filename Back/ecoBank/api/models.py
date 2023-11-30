@@ -179,9 +179,12 @@ class Card(models.Model):
             self.create_date = datetime.now().date()
             self.expiration_date = (datetime.now() + timedelta(days=(365))).date()
             self.status = True
+        
+        if self.account.saldo > 5000:
+            raise ValidationError("Cannot create a card for an account with a balance greater than 5000.")
 
-        if self.account.account_card.count() >= 2:
-            raise ValidationError("An account can have a maximum of two cards.")
+        if self.account.account_card.count() >= 1:
+            raise ValidationError("An account can have a maximum of one card.")
         
         super(Card, self).save(*args, **kwargs)
 

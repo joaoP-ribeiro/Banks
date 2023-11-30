@@ -1,4 +1,4 @@
-import {View, ScrollView} from "react-native"
+import {View, ScrollView, Alert} from "react-native"
 import { useNavigation } from '@react-navigation/native';
 import {useState, useEffect} from "react"
 import { useRoute } from '@react-navigation/native'
@@ -63,7 +63,7 @@ export default function Contact(){
             navigation.navigate('address')
         }
         catch(error) {
-            console.error(error);
+            Alert.alert('Error', String(error))
         }
     }
     return(

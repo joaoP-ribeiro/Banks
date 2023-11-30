@@ -26,7 +26,6 @@ export default function Loan() {
 
   const loan = async () =>{
     const valueNumber = parseFloat(value)
-    setValue('')
     try {
       const loan = await axiosInstance.post('/bank/api/v1/query/loan/', {
         account: authAccount,
@@ -40,7 +39,7 @@ export default function Loan() {
       });
       alert()
     } catch (error) {
-      console.log(error)
+      
     }   
   }
 

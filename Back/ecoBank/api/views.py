@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render
+from decimal import Decimal
 
 from django.db.models import Q
 from rest_framework import viewsets
@@ -85,7 +86,7 @@ class PixView(viewsets.GenericViewSet):
     def create(self, request):
         id_pay_account = request.data.get('account')
         id_receive_account = request.data.get('receive_account')
-        value = request.data.get('value')
+        value = Decimal(request.data.get('value'))
         typee = request.data.get('typee')
         installments = request.data.get('installments')
         pay_account = get_object_or_404(Account, pk=id_pay_account)
@@ -119,14 +120,17 @@ class PixView(viewsets.GenericViewSet):
         )
 
 
-        pay_account.saldo -= value
+        if typee != 'Card':
+            pay_account.saldo -= value
         receive_account.saldo += value
-
-        if pay_account.saldo < 0:
-            return Response({'message': 'Sua conta está negativa.'}, status=status.HTTP_400_BAD_REQUEST)
-
+        
         pay_account.save()
         receive_account.save()
+
+        if pay_account.saldo < 0:
+            return JsonResponse({'alert': 'Your account is negative.', 'message': 'success'}, status=status.HTTP_200_OK)
+        return JsonResponse({'message': 'success'}, status=200)
+        
         
 class LoanView(viewsets.ModelViewSet):
     serializer_class = LoanSerializer
@@ -139,13 +143,8 @@ class LoanView(viewsets.ModelViewSet):
         typee = request.data.get('typee')
         account = get_object_or_404(Account, pk=id_account)
 
-       
-        if value > 3 * account.credit_limit:
-            return JsonResponse({'error': 'Loan amount exceeds 3 times the credit limit.'}, status=status.HTTP_BAD_REQUEST)
-
-        
-        if account.saldo < 10000:
-            return JsonResponse({'error': 'Account balance is insufficient for a loan.'}, status=status.HTTP_BAD_REQUEST)
+        if value > 10000:
+            return JsonResponse({'error': 'It is not possible to make a loan above 10000'}, status=404)
 
         installment_value = value / times
 
@@ -170,6 +169,8 @@ class LoanView(viewsets.ModelViewSet):
 
         account.saldo += value
         account.save()
+        
+        return JsonResponse({'message': 'loan approved'}, status=200)
 
 
 class InvestmentView(viewsets.ModelViewSet):
@@ -218,6 +219,16 @@ class HistoricViewSet(viewsets.ModelViewSet):
 class CardHistoricViewSet(viewsets.ModelViewSet):
     serializer_class = HistoricSerializer
     queryset = Historic.objects.filter(transaction__iexact='Card')
+
+    def get_queryset(self):
+        search = self.request.query_params.get('search')
+        filters = Q()
+        if search:
+            filters &= Q(account__number__icontains=search)
+        if filters:
+            return Historic.objects.filter(filters, transaction__iexact='Card').distinct()
+        else:
+            return Historic.objects.all()
 
 class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer

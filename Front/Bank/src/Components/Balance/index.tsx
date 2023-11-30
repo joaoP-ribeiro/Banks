@@ -39,20 +39,7 @@ export default function Balance({ textColor }: Props) {
       } catch (error) {
       }
     };
-
-    const fetchInitialBalance = async () => {
-      await fetchData();
-      const interval = setInterval(() => {
-        fetchData();
-      }, 10000);
-
-      return () => {
-        clearInterval(interval);
-      };
-    };
-
-    fetchInitialBalance();
-  }, [authAccount, authToken]);
+  });
 
   return (
     <View style={stylesP.balance}>

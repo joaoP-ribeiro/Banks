@@ -27,12 +27,7 @@ export default function PixPay() {
 
   const [valuePix, setValuePix] = useState('')
 
-  const schema = yup.object().shape({
-    value: yup.string().required('Enter a value'),
-  });
-
   const pay = async () =>{
-    await schema.validate({ value: valuePix}, { abortEarly: false });
     const valueNumber = parseFloat(valuePix)
     setValuePix('')
     if(authBalance !== null && valueNumber > authBalance){
@@ -52,12 +47,18 @@ export default function PixPay() {
                 'Authorization': `Token ${authToken}`
             }
         })
-        Alert.alert('success', 'successful pix')
+        alert()
         }
-        catch(error) {setValuePix('')
+        catch(error) {
+          console.log(error)
         }
     }
   }
+
+
+  const alert = () =>{
+  Alert.alert('success', 'Successful pix');
+}
 
   return (
     <View style={styles.page}>
